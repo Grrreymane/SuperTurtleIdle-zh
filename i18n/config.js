@@ -8,7 +8,7 @@ window.GameLocalization = {
   // Bundled so that translation works if the site's dictionary can't be reached and past its 2000-entry limit.
   translations: { zh: window.STI_ZH || {} },
   // Dictionary edits made on AIWANNA are layered on top of the bundled one.
-  // remote: { origin: 'https://www.aiwanna.games', game: '<real slug after first publish>' },
+  remote: { origin: 'https://www.aiwanna.games', game: 'game-59113b06fffd7876' },
   switcherSelector: '#gameLanguage',
   canvas2d: false, // the game draws all text in the DOM
 };

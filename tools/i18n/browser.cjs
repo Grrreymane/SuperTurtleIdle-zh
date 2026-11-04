@@ -55,6 +55,7 @@ async function launch({ root, width = 1600, height = 900, lang = 'en-US' }) {
   };
   const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; pending.set(id, { resolve, reject }); ws.send(JSON.stringify({ id, method, params })); });
   await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
+  await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });   // exact viewport, not window minus chrome
 
   const page = {
     base: `http://127.0.0.1:${port}/`,
