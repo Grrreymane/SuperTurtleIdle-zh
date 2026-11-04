@@ -24,12 +24,21 @@ const PAGE = 'https://www.aiwanna.games/games/game-59113b06fffd7876';
       console.log('   errors:', [...new Set(p.errors)].filter(e => !/S2\.png/.test(e)).map(e => String(e).split('\n')[0].slice(0, 140)));
       await p.shot(path.join(SHOTS, `online-${lang}.png`));
     }
+    // The site keeps its language in a cookie and opens games with ?lang=<site language>.
     for (const lang of ['zh', 'en']) {
       p.errors.length = 0;
-      await p.goto(`${PAGE}?lang=${lang}`, 4000);
-      const info = await p.eval(`({ title: document.title, h1: document.querySelector('h1') && document.querySelector('h1').innerText, frame: [...document.querySelectorAll('iframe')].map(f => f.src), text: document.body.innerText.replace(/\\s*\\n\\s*/g, ' / ').slice(0, 420) })`);
-      console.log(`page ?lang=${lang}`, JSON.stringify(info));
+      await p.send('Network.setCookie', { name: '1gp-language', value: lang, domain: 'www.aiwanna.games', path: '/', secure: true });
+      await p.goto(PAGE, 4000);
+      const info = await p.eval(`({ title: document.title, h1: document.querySelector('h1') && document.querySelector('h1').innerText, text: document.body.innerText.replace(/\\s*\\n\\s*/g, ' / ').slice(0, 300) })`);
+      console.log(`page ${lang}`, JSON.stringify(info));
       await p.shot(path.join(SHOTS, `page-${lang}.png`));
+      // Press Play, and read the frame the site opened.
+      const played = await p.eval(`(() => { const b = [...document.querySelectorAll('button, a')].find(e => /^\\s*(Play|开始游戏|开始玩|玩|开玩)\\s*$/.test(e.innerText) && e.offsetParent); if (!b) return false; b.click(); return b.innerText.trim(); })()`);
+      await p.sleep(11000);
+      const frame = await p.eval(`[...document.querySelectorAll('iframe')].map(f => f.src).filter(s => /github\\.io/.test(s))[0] || null`);
+      console.log(`   play: ${played}, frame: ${frame}`);
+      await p.shot(path.join(SHOTS, `play-${lang}.png`));
+      console.log('   errors:', [...new Set(p.errors)].filter(e => !/S2\.png/.test(e)).map(e => String(e).split('\n')[0].slice(0, 140)).slice(0, 6));
     }
   } finally { await p.close(); }
 })().catch(e => { console.error(e); process.exit(1); });
