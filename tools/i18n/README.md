@@ -12,9 +12,12 @@ the mail preview in `rpg.js`, which need the Chinese text themselves.
     node tools/i18n/misses_report.cjs    # the same list, minus internal fields and supporter names
     node tools/i18n/verify.cjs           # end-to-end checks and screenshots
     node tools/i18n/shots.cjs            # tooltip, settings and first-run screenshots
+    node tools/i18n/online.cjs           # the live game and its AIWANNA page, in both languages
 
 To change a translation or add a line: edit `i18n/_work/extra.json` (English -> Chinese, `null` for text that is
 not shown), rebuild, and rerun `font.py` if there are new characters. `i18n/_work/glossary.md` holds the terms.
+Push, then upload `i18n/phrases/` with the MCP's `upload_game_text` (`use: "phrases"`, original `en`, translation `zh`).
+Lines edited on AIWANNA stay as edited.
 
 AIWANNA takes at most 2000 entries and 400,000 bytes per language file, so `i18n/phrases/` holds the entries seen most
 and `i18n/zh.js` holds them all. Both are used at runtime, and edits made on AIWANNA win.
