@@ -1,14 +1,27 @@
-// AIWANNA in-game translation, "by source text" mode (see aiwanna.games/developer/docs/publishing#source-phrases).
-// The game's English stays the source language and its code is untouched: /sdk/auto-i18n-v1.js swaps text nodes
-// on screen. Language order: ?lang= from the site, then the player's choice, then the browser, then English.
+// In-game translation through AIWANNA's /sdk/auto-i18n-v1.js, which swaps text nodes on screen. The game's English
+// is the source language and game logic never sees a translation. The whole dictionary ships with the game, so the
+// site stores no text for it and has nothing to scan or machine-translate.
+//
+// Language: the site's ?lang= decides, so an English site opens English and a Chinese site opens Chinese. Opened
+// without ?lang=, it's the player's last choice, then the browser, then English.
+
+// A site language this game doesn't have opens English, whatever the browser's language is.
+(function () {
+  try {
+    const url = new URL(location.href);
+    const asked = url.searchParams.get('lang');
+    if (asked && !/^(en|zh)(-|$)/i.test(asked)) {
+      url.searchParams.set('lang', 'en');
+      history.replaceState(history.state, '', url);
+    }
+  } catch (e) { /* Never let this stop the game. */ }
+})();
+
 window.GameLocalization = {
   id: 'super-turtle-idle',
   sourceLocale: 'en',
   languages: { en: 'English', zh: '中文' },
-  // Bundled so that translation works if the site's dictionary can't be reached and past its 2000-entry limit.
   translations: { zh: window.STI_ZH || {} },
-  // Dictionary edits made on AIWANNA are layered on top of the bundled one.
-  remote: { origin: 'https://www.aiwanna.games', game: 'game-59113b06fffd7876' },
   switcherSelector: '#gameLanguage',
   canvas2d: false, // the game draws all text in the DOM
 };

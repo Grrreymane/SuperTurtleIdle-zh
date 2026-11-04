@@ -1,16 +1,11 @@
 #!/usr/bin/env node
-// Turn the translation work files into what ships and what gets uploaded.
+// Turn the translation work files into what ships with the game.
 //
 //   node tools/i18n/build.cjs
-//     i18n/zh.json            master dictionary, English -> Chinese. Edit here for later fixes.
-//     i18n/zh.js              the same dictionary for the game (window.STI_ZH)
-//     i18n/phrases/en.json    AIWANNA "by source text" original, p.<sha256> -> English
-//     i18n/phrases/zh.json    AIWANNA translation
-//
-// AIWANNA takes at most 2000 entries / 400,000 bytes per file, so the platform copy holds what players see
-// the most and the rest stays in the bundled dictionary. Both are used at runtime; platform edits win.
+//     i18n/zh.json   the merged dictionary, English -> Chinese, for reading (font.py uses it too)
+//     i18n/zh.js     the same plus decoration patterns, for the game (window.STI_ZH)
 'use strict';
-const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
 const WORK = path.join(ROOT, 'i18n', '_work');
 const MAX_KEYS = 2000, MAX_BYTES = 400000;
@@ -72,35 +67,6 @@ for (const [en, zh] of Object.entries(all)) {
 }
 fs.writeFileSync(path.join(ROOT, 'i18n', 'zh.js'), 'window.STI_ZH=' + JSON.stringify({ ...TITLES, ...UNQUOTED, ...all, ...NBSP, ...WRAP }) + ';\n');
 
-// Platform copy, most-seen first: fixed interface and UI code, then names, then short text.
-const firstFile = new Map(phrases.map(p => [p.text, p.at.split(':')[0]]));
-const kindOf = new Map(phrases.map(p => [p.text, p.k]));
-const isChangelog = en => firstFile.get(en) === 'index.html' && /^(Added|Removed|Reworked|Fixed|Changed|Improved|Rebalanced)\b/.test(en);
-const rank = en => {
-  const f = firstFile.get(en), k = kindOf.get(en);
-  if (isChangelog(en)) return 6;
-  if (f && f !== 'gameObjects.js') return 0;
-  if (k === 'name') return 1;
-  if (k === 'description' || k === 'skills' || k === 'hint' || k === 'objective') return 2;
-  if (k === 'flavor') return 4;
-  return 3;
-};
-const ordered = [...dict.keys()].sort((a, b) => rank(a) - rank(b) || a.length - b.length);
-const id = en => 'p.' + crypto.createHash('sha256').update(en.trim(), 'utf8').digest('hex');
-const enOut = {}, zhOut = {};
-let enBytes = 2, zhBytes = 2, count = 0;
-const entry = (k, v) => Buffer.byteLength(JSON.stringify(k) + ':' + JSON.stringify(v) + ',');
-for (const en of ordered) {
-  if (count >= MAX_KEYS) break;
-  const k = id(en), zh = dict.get(en);
-  const a = entry(k, en), b = entry(k, zh);
-  if (enBytes + a > MAX_BYTES - 2000 || zhBytes + b > MAX_BYTES - 2000) continue;
-  enOut[k] = en; zhOut[k] = zh; enBytes += a; zhBytes += b; count++;
-}
-fs.mkdirSync(path.join(ROOT, 'i18n', 'phrases'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'i18n', 'phrases', 'en.json'), JSON.stringify(enOut, null, 0));
-fs.writeFileSync(path.join(ROOT, 'i18n', 'phrases', 'zh.json'), JSON.stringify(zhOut, null, 0));
-
-console.log({ phrases: phrases.length, translated: dict.size, dropped: dropped.length, untouched: missing.length, platformEntries: count, platformBytes: { en: enBytes, zh: zhBytes }, bundleKB: Math.round(fs.statSync(path.join(ROOT, 'i18n', 'zh.js')).size / 1024) });
+console.log({ phrases: phrases.length, translated: dict.size, dropped: dropped.length, untouched: missing.length, bundleKB: Math.round(fs.statSync(path.join(ROOT, 'i18n', 'zh.js')).size / 1024) });
 if (problems.length) { console.log(`\n${problems.length} problems:`); console.log(problems.slice(0, 60).join('\n')); process.exitCode = 1; }
 if (missing.length && process.argv.includes('--missing')) console.log('\nuntranslated:\n' + missing.map(p => JSON.stringify(p.text)).join('\n'));
