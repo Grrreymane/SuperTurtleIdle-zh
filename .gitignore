@@ -1,0 +1,6 @@
+.claude/
+tools/node_modules/
+i18n/_work/batches/
+i18n/_work/shots/
+i18n/_work/phrases.json
+i18n/_work/misses*.json

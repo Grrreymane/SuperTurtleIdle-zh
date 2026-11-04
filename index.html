@@ -1,0 +1,2090 @@
+<html>
+    
+<head>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="i18n/zh.css">
+    <meta charset="UTF-8">
+    <title>Super Turtle Idle</title>
+    <script src="i18n/zh.js"></script>
+    <script src="i18n/config.js"></script>
+    <script src="https://www.aiwanna.games/sdk/auto-i18n-v1.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="main.js" as="script">
+    <link rel="icon" href="img/src/icons/favicon.png" type="image">
+
+
+<div id="tooltip" style="display: none">
+    <div id="upperTooltip">
+    <div class="upperTooltipLeft"><img id="tooltipImage" src="img/src/upgrades/C21.jpg"></div>
+    <div class="upperTooltipRight">
+    <div id="tooltipPrice">9.999e99<img src="img/sys/Coin.png"></div>
+    <div id="tooltipTitle"><span id="tooltipName">Talar madera o algun tipo de</span>
+    <br><div id="tooltipRarity">Common</div>  
+    </div>    
+    </div>
+    </div>
+    
+    <div class="separador"></div>
+    
+    <div class="lowerTooltip">
+    <div id="tooltipDescription">texto texto texto texto texto texto texto texto texto texto texto</div>
+    <div id="tooltipFlavor">"texto texto texto texto texto texto texto texto texto texto texto"</div>
+    </div>
+    
+    <img id=tooltipArrow src="img/sys/triangulo.png">
+    <img id=tooltipArrowUp src="img/sys/triangulo.png" style="display: none;">
+    <img id=tooltipArrowRight src="img/sys/triangulo.png" style="display: none;">
+    
+    </div>
+
+<div id="tooltip2" class="tooltip" style="display: none">
+   eeeeeeeeeeeeeee
+</div>
+
+<div id="tooltipMagic" class="tooltip" style="display: none">
+    eeeeeeeeeeeeeee
+ </div>
+
+    <div id="stampMenu" class="tooltip" style="display: none">
+        <div id="upperTooltip">
+        <div class="upperTooltipLeft"><img id="stampMenuImg" src="img/src/upgrades/C21.jpg"></div>
+        <div class="upperTooltipRight">
+        <div id="tooltipTitle"> <span id="stampMenuName">Talar madera o algun tipo de</span>
+        <br><div id="stampMenuRarity">Stamp Weapon</div>  
+        </div>    
+        </div>
+        </div>
+        
+        <div class="separador"></div>
+        
+        <div class="lowerTooltip">
+        <div id="stampMenuDescription">{texto texto texto texto texto texto texto texto texto texto texto}</div>
+        
+        </div>
+</div>
+
+    
+    
+
+        <div id="opciones" class="panelOpciones" style="display:none">
+              
+            <h1>SETTINGS</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <img src="img/sys/opciones.png">
+
+            <h2><br></h2>
+            <h3 style="background: #363a5e;">Discord server</strong><button style="background: #454179;" onclick='window.open("https://discord.gg/VnukKfSs3S", "_blank"); logTrackClickDiscord=true'>Join</button></h3>
+
+            <h2>General</h2>
+            <h3>Save manually <strong style="color: rgb(85, 80, 80);">[Shortcut: "S"]</strong><button onclick="autosave(); playSound('audio/button1.mp3')">Save</button></h3>
+            <h3 id="exportSave">Export save in a JSON file<button onclick="exportJSON(); playSound('audio/button1.mp3')">Export</button></h3>
+            <h3>Import JSON file <strong style="color: rgb(240, 92, 92);"> [⚠ Only import trusted saves!]</strong><button onclick="importJSON(); playSound('audio/button1.mp3')">Import</button></h3>
+            <h3 id="warningButton">Wipe all progress<button onclick="deleteSavePrompt();" style="background: #B23E3E;">DELETE</button></h3>
+
+            <h2>Game Settings</h2>
+            <h3 id="gameLanguageRow">Language<span id="gameLanguage"></span></h3>
+            <h3>Game audio<button id="volumeSliderBox"><input type="range" id="volumeSlider" min="0" max="100" value="30" oninput="changeVolume()"></button></h3>
+            <h3>Mute game<button id="disableAudio" onclick="toggleSettings('disableAudio')">OFF</button></h3>
+            <h3>Disable combat audio<button id="disableCombatAudio" onclick="toggleSettings('disableCombatAudio')">OFF</button></h3>
+            <h3>Disable autosave <strong style="color: rgb(85, 80, 80);"> (Autosaves every minute)</strong><button id="disableAutosave" onclick="toggleSettings('disableAutosave')">OFF</button></h3>
+            <h3>Open upgrade menu on gear click <button id="disableFastUpgrade" onclick="toggleSettings('disableFastUpgrade')">OFF</button></h3>
+            <h3>Switch CTRL interaction for Alt<button id="switchContextKey" onclick="toggleSettings('switchContextKey')">OFF</button></h3>
+            <h3>Disable container auto-open<button id="disableAutoOpen" onclick="toggleSettings('disableAutoOpen')">OFF</button></h3>
+            <h3>Disable export reminder<button id="disableExportReminder" onclick="toggleSettings('disableExportReminder')">OFF</button></h3>
+            <h3>Hold key for sell mode<button id="disableHoldSell" onclick="toggleSettings('disableHoldSell')">OFF</button></h3>
+            <h3>Colorblind Mode<button id="disableColorblind" onclick="toggleSettings('disableColorblind')">OFF</button></h3>
+
+            <h2>Visual Settings</h2>
+            <h3>Disable custom cursor<button id="disableCustomCursor" onclick="toggleSettings('disableCustomCursor'); setCursor()">OFF</button></h3>
+            <h3>Disable numbers on turtle click<button id="disableClickText" onclick="toggleSettings('disableClickText')">OFF</button></h3>
+            <h3 id="disablePenguinRecapButton" style="display: none;" >Disable penguin recap window<button id="disablePenguinRecap" onclick="toggleSettings('disablePenguinRecap')">OFF</button></h3>
+            <h3>Disable inventory culling (for 4K displays)<button id="disableCulling" onclick="toggleSettings('disableCulling')">OFF</button></h3>
+
+
+            <h2>Performance</h2>
+            <h3>Disable particle effects<button id="disableParticles" onclick="toggleSettings('disableParticles')">OFF</button></h3>
+            <h3>Disable combat animations<button id="disableAnimations" onclick="toggleSettings('disableAnimations')">OFF</button></h3>
+            <h3>Disable animated backgrounds<button id="disableAnimatedBg" onclick="toggleSettings('disableAnimatedBg'); setCursor()">OFF</button></h3>
+            <h3>Disable floating damage numbers<button id="disableDamageNumbers" onclick="toggleSettings('disableDamageNumbers')">OFF</button></h3>
+
+            <h2>Combat Log</h2>
+            <h3>Disable damage logs<button id="disableDamageLog" onclick="toggleSettings('disableDamageLog')">OFF</button></h3>
+            <h3>Disable EXP logs<button id="disableExpLog" onclick="toggleSettings('disableExpLog')">OFF</button></h3>
+            <h3>Disable item drop logs<button id="disableDropsLog" onclick="toggleSettings('disableDropsLog')">OFF</button></h3>
+            <h3>Disable skills logs<button id="disableSkillLog" onclick="toggleSettings('disableSkillLog')">OFF</button></h3>
+
+            <h2 class="specialSettings" style="display: flex;">Special</h2>
+            <h3 class="specialToggle">Disable mastery<button id="masteryToggle" onclick="toggleSettings('masteryToggle'); statsUpdate(); updateStatsUI();">OFF</button></h3>
+            <h3 class="specialToggle">Disable seasonal events<button id="sEventToggle" onclick="toggleSettings('sEventToggle')">OFF</button></h3>
+            <h3 class="specialToggle">Disable gilded and present spawns<button id="randomEventToggle" onclick="toggleSettings('randomEventToggle')">OFF</button></h3>
+            <h3 class="specialToggle" id="wubblySettings" style="display: none;">Wobbly cursor <strong style="color: #d790dd;"> [⚜️ Dedicated Content: WubbleBubble]</strong><button id="wubblyCursorToggle" onclick="toggleSettings('wubblyCursorToggle'); setCursor()">OFF</button></h3>
+
+
+            <h2 class="specialSettings" style="display: flex;">🧬 Game Modifiers</h2>
+            <h3 class="gamemodeToggle">🔰 Proud mode <strong style="color: rgb(146, 134, 134);">(Increased game difficulty)</strong><button id="proudToggle" onclick="toggleSettings('proudToggle');">OFF</button></h3>
+            <h3 class="gamemodeToggle">No farm mode <strong style="color: rgb(146, 134, 134);">(Increased drop and exp gains)</strong><button id="nofarmToggle" onclick="toggleSettings('nofarmToggle')">OFF</button></h3>
+            <h3 class="gamemodeToggle">Overpower mode <strong style="color: rgb(146, 134, 134);">(Lifted area mastery cap)</strong><button id="overpoweredToggle" onclick="toggleSettings('overpoweredToggle')">OFF</button></h3>
+
+
+
+
+
+            </span>
+
+
+
+
+
+        </div>
+
+
+
+
+        <div id="masteryGuide" class="panelOpciones" style="display:none">
+              
+            <h1>MASTERY GUIDE</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <div style="display: flex; margin-right: auto; font-size: 1.5rem; font-family: fredoka; color: rgb(194, 194, 194); background: transparent; font-weight: 400; flex-shrink: 0; position: relative;"><img src="img/src/icons/masteryGuide.png">< Mastery is the fastest way to get stronger!<span id="masteryCompletion">dddddddddd</span></div>
+            <div class="separator"></div>
+            <div class="masteryGuideBox" id="MGQuesting"><img src="img/src/items/quest.jpg"><h1>Questing</h1><h2><strong><img src="img/src/icons/insight.png">330/550</strong> 32/82 (15%)</h2><div class="masteryGuideProgress"><div></div></div></div>
+            <div class="masteryGuideBox" id="MGCollection"><img src="img/src/icons/collection.jpg"><h1>Collection</h1><h2><strong><img src="img/src/icons/insight.png">330/550</strong> 32/82 (15%)</h2><div class="masteryGuideProgress"><div></div></div></div>
+            <div class="masteryGuideBox" id="MGGrandArchive"><img src="img/src/items/I0.jpg" style="outline: white solid 1px;"><h1 style="color: gray;">?????</h1><div class="masteryGuideProgress"><div></div></div></div>
+            <div class="masteryGuideBox" id="MGArmory"><img src="img/src/items/I0.jpg" style="outline: white solid 1px;"><h1 style="color: gray;">?????</h1><div class="masteryGuideProgress"><div></div></div></div>
+            <div class="masteryGuideBox" id="MGBestiary"><img src="img/src/items/I0.jpg" style="outline: white solid 1px;"><h1 style="color: gray;">?????</h1><div class="masteryGuideProgress"><div></div></div></div>
+            <div class="masteryGuideBox" id="MGGarden"><img src="img/src/items/I0.jpg" style="outline: white solid 1px;"><h1 style="color: gray;">?????</h1><div class="masteryGuideProgress"><div></div></div></div>
+
+
+            </span>
+
+
+
+
+
+        </div>
+
+
+        <div style="display: none;">
+            <div class="optionsWrapper">
+                <h1>GAME OPTIONS <a href="https://discord.gg/VnukKfSs3S" target="_blank" title="Join the Discord" onclick="logTrackClickDiscord=true"><img src="img/sys/discord.png"></a> </h1>
+                <p>(click outside this window to close)</p>
+                <img src="img/sys/opciones.png">
+    
+                
+    
+                </div>  
+        </div>
+
+        <div id="boughtUpgradesPanel" class="panelOpciones" style="display:none">
+        
+            <h1>UPGRADES</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <div class="optionsWrapper" id="boughtUpgrades">
+                
+            </div>
+        </div>
+        
+        
+        <div id="estadisticas" class="panelOpciones" style="display:none">
+
+            <h1>STATISTICS</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <img src="img/sys/estadisticas.png">
+            <br>
+            <div id="boughtUpgradesButton">Check obtained upgrades</div>
+            <h2>General</h2>
+            <h3>Active playtime: <button id="estadisticaPlaytime"></button></h3>
+            <h3>Total playtime: <button id="statTotalPlaytime"></button></h3>
+            <h3>Started on: <button id="estadisticaStartDate"></button></h3>
+            <h3>Turtle clicks made: <button id="estadisticaClicks"></button></h3>
+            <h3>Coins produced by clicking: <button id="totalCoinClicks"></button></h3>
+            <h3>Total coins gained: <button id="totalCoins"></button></h3>
+            <h3>Items crafted: <button id="statCrafted"></button></h3>
+            <h3>Items sold: <button id="statSold"></button></h3>
+            <h3>Quests completed: <button id="statQuestCompleted"></button></h3>
+            <h3>Jester turtles clicked: <button id="statJester"></button></h3>
+            <h3>Mystery presents opened: <button id="statPresents"></button></h3>
+            <h3>Plants harvested: <button id="statPlants"></button></h3>
+            <h3>Total researches: <button id="statResearch"></button></h3>
+
+            <h2>Combat</h2>
+            <h3>Total kills: <button id="statKills"></button></h3>
+            <h3>Total boss kills: <button id="statBossKills"></button></h3>
+            <h3>Total defeats: <button id="statDeaths"></button></h3>
+            <h3>Dungeons cleared: <button id="statDungeons"></button></h3>
+            <h3>Total Steals: <button id="statThief"></button></h3>
+
+            <h2>Stats</h2>
+            <h3>Coins per pat: <button id="statCoinsClick"></button></h3>
+            <h3>Pat multiplier: <button id="statCoinsClickMultiplier"></button></h3>
+            <h3>Offline multiplier: <button id="statOfflineMultiplier"></button></h3>
+            <h3>Health multiplier: <button id="statHealthMultiplier"></button></h3>
+            <h3>Strength multiplier: <button id="statStrengthMultiplier"></button></h3>
+            <h3>Spellpower multiplier: <button id="statSpellpowerMultiplier"></button></h3>
+            <h3>EXP bonus multiplier: <button id="statExpMultiplier"></button></h3>
+            <h3>Nature bonus multiplier: <button id="statNatureMultiplier"></button></h3>
+            <h3>Might bonus multiplier: <button id="statMightMultiplier"></button></h3>
+            <h3>Elemental bonus multiplier: <button id="statElementalMultiplier"></button></h3>
+            <h3>Deific bonus multiplier: <button id="statDeificMultiplier"></button></h3>
+            <h3>Occult bonus multiplier: <button id="statOccultMultiplier"></button></h3>
+
+
+
+            </span>
+        </div>
+
+        <div id="gameGuide" class="panelOpciones" style="display:none">
+
+            <h1>GAME GUIDE</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="gameGuideFlex">
+                <div id="gameGuideListing">
+                    <div class="gametip" style="margin-bottom: 1rem; background: #ce2a74; font-weight: 800; color: white;" onclick='window.open("https://superturtleidle.wiki.gg/wiki/Super_Turtle_Idle_Wiki", "_blank");'>Check The Wiki</div>
+                </div>
+                <div id="gameGuideLeft" style="display: none;">
+                    <img id="gameGuideImage" src="img/src/gametips/1.jpg">
+                    <div id="gameGuideDescription"></div>
+                </div>
+
+            </span>
+            
+        </div>
+
+
+
+        <div id="support" class="panelOpciones" style="display:none">
+            <h1>SUPPORT THE GAME!</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <img src="img/src/icons/supportTurtle.png">
+
+            <h2><br></h2>
+            <h3 style="background: #5e4536;">Patreon</strong><button style="background: #FF5900;" onclick='window.open("https://www.patreon.com/SuperTurtleIdle", "_blank");'>Support</button></h3>
+            <h3 style="background: #36555e;">Ko-Fi</strong><button style="background: #00AFF1;" onclick='window.open("https://ko-fi.com/superturtleidle", "_blank");'>Support</button></h3>
+
+
+            <br><div class="bannerTitle">Patreon Supporters</div><br>
+            <h3 style="font-size: 1.2rem; justify-content: center;">A big thank you for everyone willing to support the development of the game!</h3>
+
+            <div id="patreonList1" class="patreonList"></div>
+            <div id="patreonList2" class="patreonList"></div>
+            <div id="patreonList3" class="patreonList"></div>
+</span>
+        </div>
+
+        <div id="changelog" class="panelOpciones" style="display:none">
+                <h1>VERSION HISTORY</h1>
+                <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+                <span class="settingsFlex">
+                <img src="img/sys/changelog.png">
+
+            <p style="justify-self: center; justify-content: center; "><a href="https://discord.gg/KvpQ7W2hS8">(Full Changelog in the Discord Server)</a></p>
+            <h2>v 0.40</h2>
+            <div class="separator" style="margin: 0.4rem; margin-right: auto;"></div>
+            <p>Reworked progression and gear leveling</p> 
+            <p>Reworked bosses with custom AI </p> 
+            <p>Reworked professions</p> 
+            <p>Reworked Talent system</p> 
+            <p>Reworked UI</p> 
+            <p>Reworked dungeons</p> 
+            <p>Reworked player stats</p> 
+            <p>Reworked collectibles</p> 
+            <p>Reworked garrisons and research</p> 
+            <p>Added two new areas and a dungeon</p> 
+            <p>Added arround 300 new items</p> 
+            <p>Added the garden</p> 
+            <p>Added an in-game guide</p> 
+            <p>Added the item vault</p> 
+            <p>Added loadouts</p> 
+            <p>Added mastery</p> 
+            <p>Removed boss summon items, recipes, crit chance, garrison boxes, dungeon and boss caches, cooking, anvils, regeneration stat, and much more</p> 
+            <h2>v 0.3</h2>
+            <div class="separator" style="margin: 0.4rem; margin-right: auto;"></div>
+            <p>Added three new areas, hundreds of items, achievements, yada yada</p> 
+            <p>Removed max item limit</p> 
+            <p>Overhauled the graphical aspect of the game... again</p> 
+            <p>Added Stamps</p> 
+            <p>Added Crit Chance</p> 
+            <p>Added Mystery Presents</p> 
+            <p>Added Fishing</p> 
+            <p>Added Mail</p> 
+            <p>Added Classes and Skills</p> 
+            <p>Added Dungeons</p> 
+            <p>Added Garrisons</p> 
+            <p>Added Insight</p> 
+            <p>Added Jester Turtles</p> 
+            <p>Added Penguin Helpers, Penguin power, and other penguin nonsense</p>
+            <p>Added the Collection and the Armory</p>
+            <h2>v 0.2</h2>
+            <div class="separator" style="margin: 0.4rem; margin-right: auto;"></div>
+            <p>This is basically a code test, surely wont take much of my time</p>    
+            <p>Remade everything</p>    
+            <p>Revamped the entire graphical aspect of the game</p>    
+            <p>Added the rpg maingame</p>
+            <p>Added professions</p>
+            <p>Added day cycles and a weather system (not very used for now)</p>
+            <p>Added SFX</p>
+            <p>Added the first two areas (acting as some sort of tutorial)</p>
+            <p>Added and then reworked the achievement system</p>
+            <p>Added a bunch of stats for nerds</p>
+            <p>Added import and export save functionality</p>
+            <h2>v 0.1</h2>
+            <div class="separator" style="margin: 0.4rem; margin-right: auto;"></div>
+            <p>Oh god what did i do</p><br><br>
+            <p onclick="logTrackClickDuck=true; playSound('audio/quack.mp3')" style="color: gray;">Made by "duck" [drvcx] &#129414 </p>
+            <p onclick="logTrackClickDuck=true; playSound('audio/lily.mp3')" style="color: gray;">Turtle Voice by "lily" [.lilynee] &#128017 </p>
+                    
+        
+        </span>
+        </div>
+
+        <div id="deleteData" class="panelOpciones" style="display:none">
+            <h1>DELETE DATA</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <img src="img/sys/deleteData.png">
+            <p><br>Are you sure you want to delete <strong>all</strong> saved data?<br><br> This action is <strong>irreversible</strong> and will <strong>forever</strong> delete all progress of the game with the exception of <strong style="color: #B5DD7B;">Soulbound</strong> items</p>
+            <button style="border: white solid 2px; color:white; background: red; font-weight: 400;" onclick="deleteSave()">DELETE DATA</button>
+            </span>
+        </div>
+
+        <div id="outdatedData" class="panelOpciones" style="display:none; height: 80%; width: 40%;">
+            <h1>OUTDATED SAVEDATA</h1>
+            <div class="separatorHeader"><div class="separator"></div><div class="separator"></div></div>
+            <span class="settingsFlex">
+            <img src="img/sys/deleteData.png">
+            <p><br>With the release of 0.4, the game got overhauled and 0.3 saves became outdated, as the two versions are too fundamentally different from each other. It is <strong>very advised</strong> that you start over a new savefile by deleting the current data.<br><br><strong style="color: #B5DD7B;">Soulbound</strong> items such as the completition medal and some extra goodies will carry over this new save automatically. For more information, check the game's Discord.<br><br>Sorry for the trouble.</p>
+            <button style="border: white solid 2px; color:white; background: red; font-weight: 400;" onclick="closePanels()">UNDERSTOOD</button>
+            </span>
+        </div>
+
+        <div id="tipPanel" class="panelOpciones" style="display:none; height: 80%; width: 40%;">
+            <h1 id="tipPanelName">Welcome!</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <img src="img/sys/nerd.png">
+            <p id="tipPanelDesc"><br>Welcome to Super Turtle Idle, an incremental idle RPG. Complete quests, gather materials by idling, and tackle mighty foes!<br><br>Upgrade any weapon or armor you want, no pressure or strings attached. Is the foe too mighty? Engage with the different systems of the game to gain Mastery or try your luck getting new gear you never got before.<br><br>Getting rare items can be a daunting task at first, so dont hesitate to come back later when you're able to efficiently farm them. Do not worry, as said gear will always be useful no matter when you decide to get it!</p>
+            </span>
+        </div>
+
+        <div id="fertiliserMenu" class="panelOpciones" style="display:none">
+            <h1>SELECT FERTILISER</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex" id="fertiliserList">
+            </span>
+        </div>
+
+
+
+
+        <div id="mailMenu" class="panelOpciones" style="display:none">
+            <h1>MAILBOX</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="mailFlex">
+
+                <div id="mailList">
+
+                </div>
+
+                <div id="mailLeft" style="display: flex; visibility: hidden;">
+                </div>
+
+            </span>
+        </div>
+
+
+        <div id="upgradeMenu" class="panelOpciones" style="display:none">
+            <h1>UPGRADE GEAR</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+
+            <div class="upgradeBox">
+
+                <div id="upgradeName"><img src="img/src/items/I64.jpg" style="left:1rem;"><img src="img/src/icons/occult.png" style="right:1rem;">Terrorscythe<br><strong>Malevolent Series</strong></div>
+                <img id="upgradeItem" src="img/src/weaponModels/I64.png">
+                <div id="upgradeItemDescription"><div id="revealWeaponSkills"></div><span id="upgradeItemDescription2">Aqui van los stats y los niveles y todo eso</span></div>
+
+            </div>
+
+            <div class="upgradeBox2">
+
+                <div id="upgradeLevel">Level 12/20</div>
+
+                <div id="upgradeRequired">Required materials to level up:<br>- 2.9K Lesser Monster Soul</div>
+
+                <div id="upgradeButtons"><button onclick="upgradeOnce(event)">Level Up</button><button onclick="upgradeMax(event)">Max</button></div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            </span>
+        </div>
+
+
+        <div id="rankMenu" class="panelOpciones" style="display:none">
+            <h1>SUPER TURTLE RANK</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex" id="rankList">
+
+
+                
+
+
+            </span>
+        </div>
+
+
+
+        <div id="mailLetter" class="panelOpciones" style="display:none">
+        <span id="closeMail">X</span>
+        <span id="mailTitle">Thank you for enrolling in the Super Turtle Adventure program!</span>
+        <span id="mailBody">We are appreciative of your participation in our program. Turtles all across the world will be happy rely on your help and will reward you handsomely for your bravery!<br><br>Make every effort to assist your fellow turtles, as the adventure guild will bestow upon you a unique reward when you fulfill all of their requests in a given area.<br><br>We sincerely hope you continue with our program and have a wonderful journey! Here is a welcome gift:</span>
+        <span id="mailItem"><div class="blackLine"></div><div class="itemSlot"><img src="img/src/items/I119.jpg"></div></span>    
+        </div>
+
+        <div id="resetTalentMenuOpen" class="panelOpciones" style="display:none">
+            <h1>RESET STARS</h1>
+            <span class="settingsFlex">
+                <p>All your Talent Points will be refunded. This operation will consume one <strong style="color: orange;">Dreamwoven Gamba</strong></p>
+                <img src="img/src/items/I26.jpg">
+                
+                <button onclick="if (items.I26.count>0){ resetTalentPoints(); did('resetTalentMenuOpen').style.display = 'none'; items.I26.count-- } else {playSound('audio/thud.mp3')}">RESET</button>
+                <button style="background: #36555e; margin-top: 0.7rem;" onclick="did('resetTalentMenuOpen').style.display = 'none'; playSound('audio/close.mp3')">NEVERMIND</button>
+
+            </span>
+        </div>
+
+        <div id="importStarsMenu" class="panelOpciones" style="display:none">
+            <h1>IMPORT STARS</h1>
+            <span class="settingsFlex">
+                <p>This operation will consume one <strong style="color: orange;">Dreamwoven Gamba</strong></p>
+                <img src="img/src/items/I26.jpg"></img>
+                <input type="text" id="importStarsBox" placeholder="Paste here the code..." autocomplete="off">
+                <button style="margin-top: 0.8rem;" onclick="if (items.I26.count>0){ importStars(importStarsBox.value) } else {playSound('audio/thud.mp3')}">IMPORT</button>
+                <button style="background: #36555e; margin-top: 0.7rem;" onclick="did('importStarsMenu').style.display = 'none'; playSound('audio/close.mp3')">NEVERMIND</button>
+                
+            </span>
+        </div>
+
+        <div id="skillMenu" class="panelOpciones" style="display:none">
+
+            <div class="skillTurtle"></div>
+            <div class="skillMenuSub">
+                <div class="skillMenuSubButton" id="exitSkillMenu">
+                    <img src="img/src/icons/returnIcon.png">
+                 </div>
+                 <span style="display: none;">
+                <div class="skillMenuSubButton" id="importStars" onclick="did('importStarsMenu').style.display = 'flex'; playSound('audio/button3.mp3'); did('resetTalentMenuOpen').style.display = 'none';">IMPORT STARS</div>
+                <div class="skillMenuSubButton" id="exportStars" onclick="exportStars()">EXPORT STARS</div>
+            </span>
+                <div class="skillMenuSubButton" id="resetTalentMenu" onclick="did('resetTalentMenuOpen').style.display = 'flex'; playSound('audio/button3.mp3'); did('importStarsMenu').style.display = 'none';">RESET STARS</div>
+                <div class="skillMenuSubButton" id="talentCounter">CURRENT SP: <strong></strong></div>
+            
+            
+            </div>
+            <div class="skillCounter" style="display: none;"><span id="talentCounter">You have 10 unspent Talent Points</span><button ">RESET TALENTS</button></div>
+            <div class="skillCounter2" style="display: none;"><span >Next Talent Point:</span><span id="talentPointBar"></span></div>
+            <div  class="panelOpciones" style="display:none"><p>All your Talent Points will be refunded.<br><br>This operation will consume one <h1 style="color: orange;">Dreamwoven Gamba</h1><div class="itemSlot" style="border: 1px solid #a335ee;"><img src="img/src/items/I26.jpg"></div><button onclick="if (items.I26.count>0){ resetTalentPoints(); items.I26.count-- } else {playSound('audio/thud.mp3')}">RESET</button> <span onclick="did('resetTalentMenu').style.display = 'none'; playSound('audio/close.mp3')">X</span> </div>
+            <div id="skillContainer"> <canvas id="myCanvas" width="5000" height="5000" class="starCanvas"></canvas>
+            
+            
+            </div>
+        </div>
+        
+        <div id="honorShop" class="panelOpciones honorShop" style="display:none">
+            <h1>HONOR SHOP</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <div class="shopLockedListing" id="honorShopListing1" style="margin-top: 5rem;"><div class="shopLockedListingCover" id="honorShopListing1Cover"><img src="img/src/icons/gladr2.jpg">Achieve <strong style="background: #ffb759;">Rank 2</strong> Gladiator Rank to unlock</div></div>
+            <div class="shopLockedListing" id="honorShopListing2"><div class="shopLockedListingCover" id="honorShopListing2Cover"><img src="img/src/icons/gladr3.jpg">Achieve <strong style="background: #ffb759;">Rank 3</strong> Gladiator Rank to unlock</div></div>
+            <div class="shopLockedListing" id="honorShopListing3"><div class="shopLockedListingCover" id="honorShopListing3Cover"><img src="img/src/icons/gladr4.jpg">Achieve <strong style="background: #ffb759;">Rank 4</strong> Gladiator Rank to unlock</div></div>
+            
+            <div class="shopLockedListing" id="honorShopListing4"><div class="shopLockedListingCover" id="honorShopListing4Cover"><img src="img/src/icons/gladr5.jpg">Achieve <strong style="background: #ffb759;">Rank 5</strong> Gladiator Rank to unlock</div></div>
+            <div style="display: none;">
+            <div class="shopLockedListing" id="honorShopListing5"><div class="shopLockedListingCover" id="honorShopListing5Cover"><img src="img/src/icons/gladr6.jpg">Achieve <strong style="background: #ffb759;">Rank 6</strong> Gladiator Rank to unlock</div></div>
+        </div>
+             </span>
+        </div>
+        
+        <div id="gardenShop" class="panelOpciones honorShop" style="display:none">
+            <h1>GARDEN SHOP</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+            <div class="shopLockedListing" id="gardenShopListing0" style="margin-top: 5rem;"></div>
+            <div class="shopLockedListing" id="gardenShopListing1"><div class="shopLockedListingCover" id="gardenShopListing1Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 2</strong> to unlock</div></div>
+            <div class="shopLockedListing" id="gardenShopListing2"><div class="shopLockedListingCover" id="gardenShopListing2Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 3</strong> to unlock</div></div>
+            <div class="shopLockedListing" id="gardenShopListing3"><div class="shopLockedListingCover" id="gardenShopListing3Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 4</strong> to unlock</div></div>
+            <div class="shopLockedListing" id="gardenShopListing4"><div class="shopLockedListingCover" id="gardenShopListing4Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 5</strong> to unlock</div></div>
+            <div class="shopLockedListing" id="gardenShopListing5"><div class="shopLockedListingCover" id="gardenShopListing5Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 6</strong> to unlock</div></div>
+            <div class="shopLockedListing" id="gardenShopListing6"><div class="shopLockedListingCover" id="gardenShopListing6Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 7</strong> to unlock</div></div>
+            <div class="shopLockedListing" id="gardenShopListing7"><div class="shopLockedListingCover" id="gardenShopListing7Cover"><img src="img/src/garden/gardenIcon.jpg">Achieve <strong style="background: #97ECA5;">Gardening Level 8</strong> to unlock</div></div>
+            </span>
+        </div>
+        
+        <div id="catalogue" class="panelOpciones" style="display:none">
+
+
+            <h1>COLLECTION</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <span class="settingsFlex">
+                
+            <div class="catalogueWrapper">
+            <div class="bannerTitle" style="margin-bottom: 2rem;">Ancient Relic Collection<span id="catalogue1Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue1"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Precious Gems Collection<span id="catalogue2Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue2"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Tiny Friends Collection<span id="catalogue3Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue3"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Shiny Rocks Collection<span id="catalogue10Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue10"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Big Catch Collection<span id="catalogue4Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue4"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Lost and Found Collection<span id="catalogue9Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue9"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Arts and Crafts Collection<span id="catalogue8Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue8"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Dungeon Souvenir Collection<span id="catalogue6Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue6"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Jackpot Collection<span id="catalogue7Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue7"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Peculiar Flowers Collection<span id="catalogue12Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue12"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Prehistoric Collection<span id="catalogue5Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue5"></div>
+            <div class="bannerTitle" style="margin-bottom: 2rem; margin-top: 2rem;">Shoebox Critters Collection<span id="catalogue11Count">[0/0]</span></div>
+            <div class="catalogueListing" id="catalogue11"></div>
+            </div>
+            
+        </div>
+
+
+      
+
+
+        <div id="bestiary" class="panelOpciones" style="display:none">
+            <div class="bestiaryPage">
+                <div class="craftBookHeader">
+
+
+                    
+                        <img src="img/src/items/I290.jpg">
+                        <div class="craftBookHeaderInfo" id="craftBookHeaderInfo">
+                            <div><span>BESTIARY</span><span style="background: #FF993C; font-weight: 500;" id="bestiaryProgress">LVL 20</span><span style="background: #464ACB; font-weight: 500; display:none" id="bestiaryMastery">Mastery</span></div>
+                            <div><div><div id="bestiaryProgressBar"></div></div></div>
+                            <div><span style="background: transparent; font-weight: 500; color: #FF993C; display:none" id="bestiaryProgress2">2503 / 2750 EXP</span></div>
+                        </div>
+                    
+                    
+                    <div class="bestiaryProgress"  style="display: none;"><span>[50%] Completion</span></div>
+                    <img src="img/src/items/I290.jpg"  style="display: none;">
+
+
+                </div>
+                <div class="bestiaryListing" id="bestiaryListing">
+                    
+
+                </div>
+
+            </div>
+            <div class="bestiaryPage" style="overflow: scroll; padding-bottom: 5rem; ">
+
+                <div id="bestiaryName">Caulislug</div>
+
+                <div id="bestiaryImage">
+
+                    <div id="bestiaryHealth" class="bestiaryStat">20 HP</div>
+                    <div id="bestiaryAttack" class="bestiaryStat">20 ATK</div>
+                    <div id="bestiaryExp" class="bestiaryStat">90 EXP</div>
+                    <div id="bestiaryKills" class="bestiaryStat">💀 12.2K</div>
+                    <img id="bestiaryBadge" style="display: none;" src="img/src/icons/bestiaryBadge2.png">
+
+                    <div id="bestiaryBackground">
+                        <img id="bestiaryEnemy" src="img/src/enemies/E1.png">
+                        <img id="bestiaryEnemyAlign" src="img/src/icons/nature.png">
+                    </div> 
+
+                </div>
+
+                <div class="bestiaryTitle">DESCRIPTION</div>
+                <div class="bestiaryText" id="bestiaryDescription">A slug so passionate about vegetables that he raised one on its shell. Scientists are in absolute awe.</div>
+                <div class="bestiaryTitle" style="background: #56D179;" id="bestiarySkillsTitle">SKILLS</div>
+                <div class="bestiaryText" id="bestiarySkills">❖ Fleming Bite: Applies poison on attack.</div>
+                <div class="bestiaryTitle" style="background: #5C95EB;" id="bestiaryDropsTitle">DROPS</div>
+                <div class="bestiaryText" id="bestiaryDrops"></div>
+
+            </div>
+            
+        </div>
+
+
+        <div id="plantCatalogue" class="panelOpciones" style="display:none">
+            <div class="bestiaryPage">
+
+                <div class="craftBookHeader">
+
+
+                    
+                    <img src="img/src/items/I305.jpg">
+                    <div class="craftBookHeaderInfo">
+                        <div><span>COMPENDIUM</span><span style="background: #FF993C; font-weight: 500;" id="plantCatalogueProgress"> 50%</span><span style="background: #464ACB; font-weight: 500; display:flex" id="compendiumMastery">Mastery</span></div>
+                        <div><div><div id="plantCatalogueProgressBar"></div></div></div>
+                        <div><span style="background: transparent; font-weight: 500; color: #FF993C; display:flex" id="compendiumProgress2">2503 / 2750 EXP</span></div>
+                    </div>
+                
+                
+                <div class="bestiaryProgress"  style="display: none;"><span>[50%] Completion</span></div>
+                <img src="img/src/items/I290.jpg"  style="display: none;">
+
+
+            </div>
+
+    
+                <div class="bestiaryListing" id="plantCatalogueListing">
+                    
+
+                </div>
+
+            </div>
+            
+        </div>
+
+
+
+        <div id="armory" class="panelOpciones" style="display:none">
+
+
+            <h1>ARMORY</h1>
+            <div class="separatorHeader"><div class="separator" style="background: white;"></div>(Click outside the window to close)<div class="separator" style="background: white;"></div></div>
+            <span class="settingsFlex">
+                
+            <div class="catalogueWrapper">
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 5rem; border: solid #6D6D6D 0.15rem;">Heirloom Series<span id="heirloomArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="heirloomArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border: solid #9E8244 0.15rem;">Millionaire Series<span id="millionaireArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="millionaireArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border: solid #957256 0.15rem;">Masterwork Series<span id="masterworkArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="masterworkArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border: solid #886386 0.15rem;">Forgotten Series<span id="forgottenArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="forgottenArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border: solid #8E4D60 0.15rem;">Beastfallen Series<span id="beastfallenArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="beastfallenArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border: solid #5A8C98 0.15rem;">Revered Series<span id="reveredArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="reveredArmory"></div>
+
+
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, rgba(240, 71, 5, 1), rgba(240, 169, 10, 1)) 30%; ">Solstice Series<span id="solsticeArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="solsticeArmory"></div>
+
+            
+
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, rgba(193,121,17,1), rgba(56,126,53,1)) 30%; ">Ancient Series<span id="ancientArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="ancientArmory"></div>
+
+            
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, rgba(54,55,77,1), rgba(126,53,117,1)) 30%; ">Malevolent Series<span id="malevolentArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="malevolentArmory"></div>
+            <div style="display: none;"> 
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, rgba(77,54,128,1), rgba(187,48,159,1)) 30%; ">Runic Series<span id="runicArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="runicArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, rgba(210,171,17,1), rgba(41,159,112,1)) 30%; ">Chosen Series<span id="chosenArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="chosenArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, rgba(255,151,19,1), rgba(41,159,112,1)) 30%; ">Toybox Series<span id="toyboxArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="toyboxArmory"></div>
+            <div class="armoryTitle" style="margin-bottom: 0rem; margin-top: 2rem; border-image: linear-gradient(90deg, #5F2FB0, #5F2FB0) 30%; ">Omega Series<span id="omegaArmoryCount">[0/0]</span></div>
+            <div class="catalogueListing" id="omegaArmory"></div>
+        </div>
+
+
+            </div>
+
+            </span>
+            
+        </div>
+
+
+        
+        
+        
+        </div>
+        
+        
+        <div id="turtleRename" class="panelOpciones" style="display:none">
+            <h1>RENAME YOUR TURTLE</h1>
+            <div class="separatorHeader"><div class="separator" style="background: white;"></div>(Click outside the window to close)<div class="separator" style="background: white;"></div></div>
+            <span class="settingsFlex">
+            <span id="namingBoxArea"><input type="text" id="namingBox" placeholder="Jeffrey" autocomplete="off" maxlength="20" onkeydown="enterName(event)"></span>
+             
+            </span>
+            
+        </div>
+        
+        
+        
+
+        <div id="panelAutosave" class="panelOpciones" style="display:none">
+            
+        </div>
+
+        <div id="popUpList"></div>
+    
+        <div id="achievementPopup" class="panelOpciones">
+            <span><img src="img/sys/achievements.png">ACHIEVEMENT UNLOCKED</span>
+            <span><h2 id="achievementName">Alone No More</h2></span>
+        </div>
+    
+        
+        
+        <div id="penguinRecap" class="panelOpciones" style="display:none">
+            <h2 id="closeRecap">X</h2>
+            
+            <img src="img/sys/penguinRecap.png" onclick='logs.P53A.unlocked=true; this.style.animation = "gelatine 0.3s 1";' id="recapImage" style="display: none;">
+            <div class="flex" id="recapMsg">
+            </div>    
+            
+        </div>
+
+        <div class="panelOpciones" id="cheatPanel" style="display:none">
+            <h3>modo diablo &#128520;</h3>
+            <button onclick="cheat(1)">1min</button><button onclick="cheat(10)">10min</button><button onclick="cheat(60)">1h</button><button onclick="cheat(600)">10h</button><button onclick="cheat(6000)">100h</button><button onclick="cheat(60000)">1000h</button><button onclick="cheat(600000)">10000h</button><button onclick="cheat(6000000)">100000h</button><button onclick="increaseCoins(3600)">1h (i)</button><button onclick="increaseCoins(36000)">10h (i)</button><button onclick="cheat2(1)">coins</button><button onclick="cheat2(2)">resour</button><button onclick="cheat2(3)">food</button><button onclick="cheat2(4)">energy</button>
+            time skipped: <span id="timeskip">0</span>horas
+       
+        </div>  
+    
+        <div id="unlockPanel" style="display: none">
+    
+         <img id="unlockAnimation" src="img/sys/unlockAnimation.gif" alt="Animated GIF">
+ 
+         <img id="unlockedAura" src="img/sys/sunRays.png">
+         <img id="unlockedItem" src="img/sys/penguinRecap.png">
+        <p id="unlockedText"></p>
+        <p id="unlockedDescription"></p>
+        <span id="unlockedText2">(click anywhere to close)</span>
+    </div>     
+
+        
+        <div class="dynamicSpark"></div>
+    
+    
+    <div id="debugPanel" style="display: none"><button class="itemSlot" onclick="levelUp(1)">+1 Level</button><button class="itemSlot" onclick="rpgClass[stats.currentClass].level+=10;">+10 Level</button><button class="itemSlot" onclick="rpgClass[stats.currentClass].level-=5;">-5 Level</button><button class="itemSlot" onclick="enemies[stats.currentEnemy].killCount=10000; createBestiary()">medal</button><button class="itemSlot" onclick="revive()">Revive</button><button class="itemSlot" onclick="deleteEnemy()">Banish</button><button class="itemSlot" onclick="godmode=true">God</button><button class="itemSlot" onclick="unlockAll()">Unlock</button><button class="itemSlot" onclick="currentHP=0; enemyUpdate()">Kill</button><button class="itemSlot" onclick="for (i in items) if ('cd' in items[i]) {items[i].cd=0}">CD</button><button class="itemSlot" onclick="learnAllTalents()">Skills</button><button class="itemSlot" onclick="rpgPlayer.coins = 999999999999; stats.totalCoins=999999999999">Money</button><button class="itemSlot" onclick="disableArmory=true">Armory</button></div>
+    
+
+</head>
+ 
+
+<body>
+    
+    
+    
+    
+    <div id="bodyCover" style="display: none;"></div>
+    <div id="blackScreen"></div>
+    <div id="mysteryRewardPanel"></div>
+    <div id="presentMinigame">
+<div id="presentBlocker" class="clickBlocker"></div>
+<div id="mysteryCloth"></div>
+<div id="mysteryList"></div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <span id="body">
+
+        <!-- ------------------Barra lateral--------- -->
+
+        <div class=bLateral id="lateralMenu">
+            
+            
+            <div class=listaLateral>
+
+                <div id="tortulogo"><div id="hideMenu"></div></div>
+
+
+                <div class=sinBoton id="botonChangelog">
+                    <p>v 0.4 <strong style="background: transparent; color: orange; font-weight: 900;">(Version History)</strong></p>
+                </div>
+
+                <div class=sinBoton id="botonSupport">
+
+                    <p>Support the game ❤️</p>
+                </div>
+
+                <div class=sinBoton id="botonOpciones">
+
+
+                    <p>Settings</p>
+                </div>
+
+                <div class=sinBoton id="botonEstadisticas">
+
+                    <p>Statistics</p>
+                </div>
+
+                <div class=sinBoton id="botonGameGuide">
+
+                    <p>Game Guide</p>
+                </div>
+
+                <div class=sinBoton onclick='window.open("https://superturtleidlebeta.github.io", "_blank");'>
+
+                    <p>Try The Beta!</p>
+                </div>
+
+                
+
+                <div class="separator"></div>
+                
+                <div class=botonLateral id="rpgTab">
+                    <img src="img/src/icons/expedition.png">
+                    <p>Exploration</p>
+                </div>
+
+                
+                <div class=botonLateral id="achievementsTab" style="display:none">
+                    <img src="img/src/icons/achievement.png">
+                    <p>Grand Archive</p>
+                </div>
+                
+                <div class=botonLateral id="jobTab" style="display:none" onclick="updateRecipeButton(currentRecipe)">
+                    <img src="img/src/icons/job.png">
+                    <p>Guildwork</p>
+                </div>
+
+                <div class=botonLateral id="campTab" style="display:none">
+                    <img src="img/src/icons/garrison.jpg">
+                    <p>Garrison</p>
+                </div>
+
+                
+
+                <div class=botonLateral id="townshipTab" style="display:none">
+                    <img src="img/sys/township.png">
+                    <p>Arcanum Liber</p>
+                </div>
+
+               
+
+            </div>
+            <div class=panelRecursos id="panelRecursos">
+
+                
+
+                <div class=recursosLateral>
+
+                    
+
+                    <div class="resourceCounter" id="coinCounter">
+                        <img src="img/sys/coin.png"><strong id="contadorMonedas">0</strong><p translate="no">Shells</p>
+                    </div>
+
+                    <div class="resourceCounter" id="coinCounter" style="margin-top: 0.5rem; display: none;">
+                        <img src="img/src/icons/scutes.jpg"><strong >0</strong><p translate="no">Prism Scutes</p>
+                    </div>
+                   
+                    <div class="resourceCounter" id="coinCounter" style="margin-top: 0.5rem;  display: none;">
+                        <img src="img/src/icons/sheddings.jpg"><strong >0</strong><p translate="no">Sheddings</p>
+                    </div>
+                    
+
+
+
+                </div>
+                <div class=panelTortuga>
+                    <div class=nombreTortuga>
+                        <p id="turtleName">Jeffrey</p>
+                    </div>
+                    <img id="tortugaClick" src="img/src/tortugasdefault/img1.png" draggable="false">                    
+                    <div id="turtleBuffWrapper">
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+        <!-- --------------Barra Superior ------------>
+
+        <div class=bSuperior>
+            <div class=categoria>
+                <div id="titleBanner"></div>
+                <div class=tCategoria id="campTitle" style="display: none">
+                    <img src="img/src/icons/garrison.jpg">
+                    <h1 translate="no">Garrison
+                    </h1>
+                </div>
+                <div class=tCategoria id="achievementsTitle" style="display: none">
+                    <img src="img/src/icons/achievement.png" />
+                    <h1 translate="no">Grand Archive
+                    </h1>
+                </div>
+                <div class=tCategoria id="townshipTitle" style="display: none">
+                    <img src="img/sys/township.png" />
+                    <h1 translate="no">Township
+                    </h1>
+                </div>
+                <div class=tCategoria id="rpgTitle" style="display: none">
+                    <img src="img/src/icons/expedition.png" />
+                    <h1 translate="no">Exploration
+                    </h1>
+                </div>
+                <div class=tCategoria id="jobTitle" style="display: none">
+                    <img src="img/src/icons/job.png" />
+                    <h1 translate="no">Guildwork
+                    </h1>
+                </div>
+            </div>
+            <div class="recursosSuperior">
+                <div class="topWidget"  id="masteryButton" onclick="masteryGuide()"><img src="img/src/icons/insight.png"></div>
+                <div class="topWidget"  id="bestiaryButton" onclick=" bestiaryEntry(stats.currentEnemy); createBestiary(); playSound('audio/book.mp3');"><img src="img/src/items/I290.jpg"></div>
+                <div class="topWidget" id="armoryButton" style="display: none;" onclick="createArmory()"><img src="img/src/icons/armory.jpg"></div>
+                <div class="topWidget" id="collectionButton"><img src="img/src/icons/collection.jpg"></div>
+                <div class="topWidget" id="weatherButton"><img id="currentWeather" src="img/src/projectiles/none.png"/></div></div>
+                
+                
+                
+                
+
+
+
+            </div>
+        </div>
+        <!-- ---------------Barra Inferior------------ -->
+
+
+        <div id=bInferior>
+
+            <span id="jesterWrapper"></span>
+            
+            <div class="categoryContent" style='display: none' id="campContainer">
+
+
+                <div class="categoryContentColumn" style="width: 60%; margin-right: 0.3rem;">
+
+                    <div class="contentPanel" style="height: 100%;" id="buildingPanel">
+                        <span style="padding: 1.5rem; display: flex; background: transparent; gap: 1.2rem; flex-wrap: wrap;" id="buildingList">
+                            
+                            
+            
+                        
+                                                
+                        
+                        </span>
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="categoryContentColumn" style="width: 40%;">
+
+                    <div class="contentHeader">
+                        <div class="contentHeaderLeft"><img src="img/src/icons/researchIcon.jpg">Research Laboratory
+                        </div>
+                        <div class="contentHeaderCenter"></div>
+                        <div class="contentHeaderRight">
+                        </div>
+                    </div>
+
+                    <div class="contentPanel" style="height: 50%; margin-bottom: 0.3rem;" id="researchPanel">
+                    <span id="researchList"></span>
+                    </div>
+                    <div class="contentPanel" style="height: 50%;"><div class="lockedPanel"><div class="lock">&#128274;</div></div></div>
+
+                </div>
+            
+            
+            
+            
+            
+            </div>
+            
+            <div class="aldeaTortugaContenido" style='display: none'>
+
+                <!-- ---------------ALDEA TORTUGA------------ -->
+
+                <div class="panelInferiorAldea" >
+                    <div class="panelConstruccion" id="buildingPanel">
+                        <div class="panelConstruccionTitulo">
+                            <span>Camp Construction</span>
+                        </div>
+
+
+                       
+                        <div class="listaEdificios" id="buildingList" style="display:flex">
+
+                            <!--<div class="building">
+                                <div class="building1">
+                                    <div class="buildingLeft">
+                                        <span>14/20</span>
+                                        <img src="img/src/upgrades/R10.png"></div>
+                                    <p>
+                                    <strong>Lumberjack Post</strong>
+                                    <br>
+                                    <span>❖ 12K [Turtle Coins]</span>
+                                    <br>
+                                    <span>❖ 310K [Spooky Wood]</span>
+                                    <br>
+                                    <span>❖ 281 [Copper Ingot]</span>
+                                    <span style="background: transparent; font-size: 1.5vh; padding: 0%">Increases Max HP by 0.1% per level<br><br></span>
+                                    <strong class="logStat">[Current Bonus: 10%]</strong>
+                                    </p>
+                                </div>
+                                <div class="building2">Left Click to <FONT COLOR="lawngreen">&nbsp;Buy</FONT></div>
+                               </div>-->
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- ---------------MEJORAS------------ -->
+                    <div class="panelMejoras">
+
+
+                        <div class="panelMejorasTitulo"><span>Research Facility</span></div>
+                        
+                        <div id="researchList">
+
+                            <!--<div class="researchItem"><img src="img/src/upgrades/C12.png"><p><span>Ghostwood Logs</span><span>1500M <img src="img/sys/coin.png" /></span><span style="background: rgb(180, 87, 58);">8:25:00</span><span style="background: rgb(180, 87, 58);">&#8987;</span><br><br></p><div class="researchBar"></div></div>-->
+
+
+                        </div>
+
+                       
+
+                    </div>
+
+                    <div class="lockedPanel" id="expeditionPanel">
+
+
+                        <div class="lock">&#128274;</div>
+
+
+                       
+
+                    </div>
+
+
+
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+
+
+            <div class="categoryContent" id="achievementContainer" style='display: none' >
+
+                <div class="categoryContentColumn" style="width: 100%;">
+                <div class="contentHeader" id="achievementHeader" >
+                    <div class="contentHeaderLeft">
+                        <span id="logHeaderBooks">Books Collected : 18/29 <strong >20%</strong></span>
+                    </div>
+                    <div class="contentHeaderCenter"></div>
+                    <div class="contentHeaderRight">
+                        <span id="logHeaderInsight">Insight Gained :<strong style="color: #6dcdde;">770</strong><img src="img/src/icons/insight.png"></span>
+                    </div>
+                </div>
+
+                <div class="contentPanel" id="logPanel">
+                
+                
+                    <div class="logListing" id="achievementListing"></div>
+
+                
+                </div> 
+
+
+
+
+
+
+
+
+
+
+            </div>
+            </div>
+
+
+
+
+
+
+            
+         
+
+
+
+
+
+
+
+
+
+
+            <!-- ---------------ARCANUM TAB------------ -->
+            <div class="aldeaTortugaContenido" id="townshipContainer" style='display: none' >
+            
+            <div class="panelInferiorAldea" id=townshipWrapper>
+                
+             <div class="panelConstruccion" id="legislationPanel">
+             <div class="panelConstruccionTitulo" id="legislationLine"><span>Blue Magic</span>
+             </div> 
+                 
+                 
+             
+             <div class="bannerAldeaRecursos" id="legislationBanner">
+              <p>Treaties allow the potential of your turtle empire to reach new heights by focusing on specific elements of your kingdom.<br><br>
+              When you sign a treaty, a set of <strong style="color:#edd585">boons and banes will apply</strong>. Furthermore, treaties can be ranked up to further boost their effects. <br><br><strong style="color:FD5151">You can only switch treaty after an hour.</strong></p>
+            </div>
+                 
+                 
+             <div class=separador></div><div class="achievementWrapper" id="treatiesList"></div> 
+             
+                 
+                <button id="signButton">SIGN</button>
+                 
+                 
+                 
+                 
+             </div>
+                
+            <div class="panelConstruccion" id="syndicatePanel">
+             <div class="panelConstruccionTitulo" id="syndicateLine"><span>Blood Magic</span></div>
+               
+             
+                
+             </div>
+            <div class="panelConstruccion" id="legacyPanel">
+             <div class="panelConstruccionTitulo" id="legacyLine"><span>Time Magic</span></div>
+                <span style="display: none">
+              <div class="bannerAldeaRecursos" id="legacyBanner">
+                  
+              <p>
+              Your <strong style="color:FFC061">Turtle Coins</strong> are slowly filling up the <strong style="color:D989FF">Astral gauge</strong>.<br> When the Astral gauge completes, you can get access to the <strong style="color:D989FF">Planetarium</strong>, and <strong style="color:FD5151">leave behind all activities, upgrades, coins, resources and exploration levels</strong>.<br><br> You will step down from your position as leader of the turtles, and three <strong style="color:5176D4"> Constellations </strong> will be born in honor of your dynasty, alongside increased <strong style="color:D989FF">Astral level</strong>.  <br><br> On the <strong style="color:D989FF">Planetarium</strong>, you can spend the <strong style="color:5176D4">Constellations</strong> in perks to carry over your next legacy.  <br><br>     
+
+              You are currently missing 7.123e99 <strong style="color:FFC061">Turtle Coins</strong> for the next <strong style="color:D989FF">Astral level</strong></p>
+                      
+            </div>  
+              
+                
+              <div id="constellationMeter">
+                  <div id="constellationBall"></div>
+                <div id="constellationProgress"></div>
+                  
+                  
+                </div>  
+                
+             <button id="endLegacyButton">NEXT ASTRAL LEVEL:</button>
+                    
+                    
+                    
+                    
+                </span>  
+               
+             
+                
+             </div>
+ 
+                
+                
+                
+                
+                
+                    
+             </div>
+            
+            </div>
+             <!-- ---------------JOB TAB------------ -->
+
+
+
+            <div id="jobContainer" class="categoryContent" style='display: none'>
+
+                <div class="categoryContentColumn" style="width: 40%; margin-right: 0.3rem;">
+
+                    <div class="contentPanel" style="height: 55%; margin-bottom: 0.3rem;" id="gardenPanel">
+
+                        <div class="lockedPanel" id="gardenLockedPanel"><div class="lock">&#128274;</div></div>
+                        
+                    
+                    <div class="gardenHeader">
+                        <div class="gardenTab" id="gardenShopButton"> <img src="img/src/garden/gardenShop.jpg"></div>
+                        <div class="gardenTab" id="gardenShipButton" onclick="createPlantCatalogue()" style='display: none'> <img src="img/src/garden/gardenShip.jpg"></div>
+                        <div class="gardenTab" id="gardenFertiliserButton" style='display: none' onclick="createFertiliser()"><img id="currentFertiliser" src="img/src/garden/f1.jpg"></div>
+                        <div class="gardenTab" id="gardenExpButton"><span id="gardeningExp">🌳 Gardening Level 1 🌳</span><div id="gardeningExpBar"></div></div>
+                        <div class="gardenTab" id="gardenTokenCount">🌸</div>
+                        <div class="gardenTab" id="flowerPower">🌸</div>
+
+
+                    </div>
+
+                    <span class="gardenWrapper">
+
+                    <div id="gardenList"></div>
+
+                    <div class="gardenRows" id="gardenSquare">
+                        <span class="gardenWood1"></span><span class="gardenWood2"></span><span class="gardenWood3"></span><span class="gardenWood4"></span>
+                        <div id="gardenRow1"></div>
+                        <div id="gardenRow2"></div>
+                        <div id="gardenRow3" style="display: none;"></div>
+                        <div id="gardenRow4" style="display: none;"></div>
+                        <div id="gardenRow5" style="display: none;"></div>
+                    </div>
+
+                    
+                    
+                    </span>
+                    
+                    </div>
+
+
+                    <div class="contentPanel" style="height: 45%;"><div class="lockedPanel"><div class="lock">&#128274;</div></div></div>
+
+                </div>
+
+                <div class="categoryContentColumn" style="width: 60%;">
+                    
+                    <div id="craftBook">
+
+                        <div class="craftBookPage">
+                            <div class="craftBookHeader">
+                                <img src="img/src/icons/blacksmith.png" id="professionTitleIcon">
+                                <div class="craftBookHeaderInfo" id="craftBookHeaderInfo">
+                                    <div><span id="professionTitle">BLACKSMITHING</span><span style="background: #FF993C; font-weight: 500;" id="professionLevel">LVL 20</span></div>
+                                    <div><div><div id="professionSkillBar"></div></div></div>
+                                    <div><span style="background: transparent; font-weight: 500; color: #FF993C;" id="professionSkillExp">2503 / 2750 EXP</span></div>
+                                </div>
+                            </div>
+
+                                <span class="craftBookContent" id="blacksmithRecipes">
+
+                            
+
+                        </span>
+
+                        <div class="craftBookContent" id="alchemyRecipes" style="display: none"></div>
+                        <div class="craftBookContent" id="engineeringRecipes" style="display: none"></div>
+
+
+                        </div>
+
+                        <div class="craftBookPage">
+
+                            <div class="craftBookmarkList">
+                                <div class="craftBookmark" id="blacksmithBookmark"><img src="img/src/icons/blacksmith.png"><div class="craftBookmarkEnd"></div></div>
+                                <div class="craftBookmark" id="alchemyBookmark"><img src="img/src/icons/alchemy.png"><div class="craftBookmarkEnd"></div></div>
+                                <div class="craftBookmark" id="engineeringBookmark"><img src="img/src/icons/engineering.png"><div class="craftBookmarkEnd"></div></div>
+                            </div>
+
+                            <div class="craftBookRecipe" id="recipePanel" style="display: none;">
+                                <div class="craftBookRecipeInfo" >
+                                    <img src="img/src/items/I105.jpg" id="recipeImage">
+                                    <div class="craftBookRecipeDetails">
+                                        <div id="recipeTitle">Plated Explorer Cuirass</div>
+                                        <div id="recipeTimer">⏱️ 1m 21s</div>
+                                    </div>
+                                </div>
+
+                                <div class="craftBookRecipeDescription" id="recipeDescription">
+                                    Requires Blacksmithing Level 30<br>
+                                    Craft a Saltwater Bathbomb, used to open Medium Crates
+                                </div>
+
+                                <div class="craftBookRecipeBar">Requires</div>
+                                <div class="craftBookRecipeReagents" id="recipeReagents">
+                                    <img class="itemSlot" src="img/src/items/I101.jpg">
+                                    <img class="itemSlot" src="img/src/items/I102.jpg">
+                                    <img class="itemSlot" src="img/src/items/I103.jpg">
+                                </div>
+                                <div class="craftBookRecipeBar">Creates</div>
+                                <div class="craftBookRecipeReagents" id="recipeOutcome"> <img class="itemSlot" src="img/src/items/I109.jpg"> </div>
+                                <span>
+
+                                <input id="craftingQueue" type="text" autocomplete="off" placeholder="1" maxlength="3" onclick="craftingQueue.value=''">
+
+                                <div class="craftBookButtonWrapper">
+                                    <div id="craftButtonOne"><img src="img/src/icons/anvil.png">Craft</div>
+                                    <div id="craftButtonAll">All</div>
+                                    <div id="craftButtonCancel" style="font-family: fredoka;" >X</div>
+                                </div>
+
+                                </span>
+
+
+                                <div id="craftBookBarBox">
+                                    <div class="craftBookBarBoxFlair"></div>
+                                    <div class="craftBookBarBoxFlair" style="left: -1rem;"></div>
+                                    <div class="craftBookBar" id="craftBar"></div>
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="aldeaTortugaContenido" style='display: none' >
+            
+            <div class="panelInferiorAldea" id=townshipWrapper>
+                
+             
+                
+            <div class="panelConstruccion" id="jobPanel" >
+            
+               
+             
+               <div class="jobBook">
+                <div class="bookPage1">
+                 <div class="bookPage1Head">
+                    
+                    <div id="professionTitleBox">
+                     <div id="professionTitleIcon"></div>
+                     <p id="professionTitle">Novice Blacksmith <span>[Level 5]</span></p>
+                        <p id="professionSkillExp">3003/7200 exp</p>
+                     
+                     </div>
+                    </div>  
+                   <div class="recipeWrapper" id="blacksmithRecipes">
+                  
+                       
+                   </div>
+                    
+                     <div class="recipeWrapper" id="cookingRecipes" style="display: none">
+                   
+                   </div>
+                    
+                     <div class="recipeWrapper" id="alchemyRecipes" style="display: none">
+                  
+                   </div>
+                    
+                     <div class="recipeWrapper" id="engineeringRecipes" style="display: none">
+                  
+                   </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                   
+                </div>
+                <div class="bookPage2">
+                 <div class="bookPageSelector">
+                     
+                     
+                    
+                  <div class="bookmarkCurrent" id="blacksmithBookmark">
+                      <div class="bookmarkIcon"></div>
+                     <div class="bookmarkEnd"></div>
+                     </div>  
+                    
+             <div class="bookmark" id="cookingBookmark" style="display: none;">
+                      <div class="bookmarkIcon"></div>
+                     <div class="bookmarkEnd"></div>
+                     </div>         
+                    
+             <div class="bookmark" id="alchemyBookmark">
+                      <div class="bookmarkIcon"></div>
+                     <div class="bookmarkEnd"></div>
+                     </div>   
+                     
+         <div class="bookmark" id="engineeringBookmark">
+                      <div class="bookmarkIcon"></div>
+                     <div class="bookmarkEnd"></div>
+                     </div>                
+                    </div>    
+                   
+                   
+             <div class="recipePanel" id="recipePanel" style="display:none">
+                    <div class="recipeTop"><img id="recipeImage" src="img/src/items/I31.jpg"><p id="recipeTitle">Copper Bar [0]</p><div id="recipeTimer">99m 99s</div></div>
+                    
+                    <p id="recipeDescription"><span style="color: lawngreen">Requires Novice Blacksmith [0]</span><br>Smelt ore into an ingot of copper.</p>
+                    <div class="recipeSeparator">Requires:</div>
+                    <div class="recipeBox" id="recipeReagents"><div class="itemSlot"></div><div class="itemSlot"></div></div>
+                    <div class="recipeSeparator">Creates:</div>
+                    <div class="recipeBox" id="recipeOutcome"><div class="itemSlot"></div><div class="itemSlot"></div></div>
+                 
+                    <div id="craftBarWrap"><div class="craftBarBg"><div id="craftBar"></div></div><div class="craftBar1"><div class="craftBarDiamond"></div></div><div class="craftBar2"><div class="craftBarDiamond"></div></div></div>
+                 
+                 
+                    
+                    </div>       
+                    
+                    
+                    
+                    
+                    
+                   
+                   </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                </div> 
+                
+                
+                
+                
+                
+                
+                
+             </div>
+                
+                
+                
+                
+            <div class="lockedPanel" id="miningPanel">
+                <div class="lock">&#128274;</div>
+             
+         
+             </div>
+ 
+                
+                
+                
+                
+                
+                    
+             </div>
+            
+            </div>
+            
+
+
+
+
+           
+            <!-- ---------------RPG TAB------------ -->
+            
+            <div class="categoryContent" id="rpgContainer" style='display: none' >
+
+            <div class="categoryContentColumn" style="width: 65%; margin-right: 0.3rem;">
+
+                <div class="contentHeader" id="rpgBannerTitle" >
+                    
+                    <div class="contentHeaderLeft"><img src="img/src/icons/afk.jpg" id="penguinIndicatorButton"><img src="img/src/upgrades/P1.jpg" id="minipenguin1" style="display:none" class="minipenguin"><img src="img/src/upgrades/P1.jpg" id="minipenguin2" style="display:none" class="minipenguin"><img src="img/src/upgrades/P1.jpg" id="minipenguin3" style="display:none" class="minipenguin">
+                    
+                    </div>
+                    <div class="contentHeaderCenter">
+                        <img src="img/src/areas/A1M.png" id="areaImage"><span id="areaName">Lush Passageway</span><span id="areaLevel">lvl 5</span>
+                    </div>
+                    <div class="contentHeaderRight">
+
+                        <span id="areaEffect">🌫️ Esoteric Brume</span>
+                    </div>
+                
+                
+                    
+                </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                <div id="rpgCanvas">
+
+                    <canvas id="fxCanvas"></canvas>
+
+                    <div class="extraBattleUI" id="dungeonUI"> <div class="dungeonBar"><div class="dungeonBox"></div><div id="dungeonMeter"></div></div><img id="dungeonBox2" src="img/src/icons/skull5.png"> </div>
+                        
+                    <div class="extraBattleUI" id="showdownUI" style="display: none;"> 00:00 </div>
+    
+                    <div class="extraBattleUI" id="skirmishUI" style="display: none;"><div id="skirmishTimer">Wave 1 - 01:30</div><div class="dungeonBar"><div class="dungeonBox"></div><div id="skirmishMeter"></div><div class="dungeonBox2"></div></div> </div>
+    
+                    <div id="honorCounter" style="display: none;">Honor: 2392<img src="img/src/icons/honor.jpg"></div>
+    
+                    <img id="honorSign" src="img/src/icons/honorShop.png"></img>
+    
+                    <div id="honorPilar" src="img/src/icons/honorRank.png"><img id="honorRank" src="img/src/icons/gladr1.jpg"></div>
+                    
+    <!-- ---------------rpgbelow------------ -->
+                    
+                
+
+                <div id="rpgWidget"><img src="img/src/icons/mail.png" id="mailButton"><img src="img/src/icons/adventure.png" id="rankButton" onclick="createARank()"></div>
+    
+                  <div id="weatherOverlay"></div> <div id="weatherEffectOverlay"></div>
+                      
+                  <div class="npcSlot" id="playerPanel"><img src="img/src/icons/might.png" id="turtleAlign"><div class="npcPanel" id="playerNpcPanel"><p><span id="turtleName2">NombreTortuga</span> <span id=turtleLevel>[lvl 8]</span></p><div class="npcHpBar" id="playerHpBar"></div></div><div id="playerBuffWrapper"></div><div class="throwParticle"></div><div class="npcImg" id="playerAnimation"><img id="rpgPlayerImg" src="img/src/armor/A0.png"><img id="armorFlair" src="img/src/projectiles/none.png"><img id="playerWeapon" src="img/src/weaponModels/W0.png"></div></div>
+                  
+                  <div class="npcSlot" id="enemyPanel"><div class="npcPanel" id="npcPanel"><p><span id="enemyName">Stern Cricket</span> <span id=enemyLevel>[lvl 8]</span></p><div class="npcHpBar" id="enemyHpBar"></div></div><div id="enemyBuffWrapper"></div><div></div><div class="npcImg" id="enemyAnimation"></div></div>     
+                  
+                
+                  <div id="rpgCanvasUnder" style="display: flex;">
+
+                    <div id="rpgCanvasSkills">
+
+                       <div id="skillButton0"><div id="skillSlot0CD"></div><img id="skillSlot0" src="img/src/icons/skill0Slot.png"></div>
+                       <div id="skillButton1"><div id="skillSlot1CD"></div><img id="skillSlot1" src="img/src/icons/skill1Slot.png"></div>
+                       <div id="skillButton2"><div id="skillSlot2CD"></div><img id="skillSlot2" src="img/src/icons/skill2Slot.png"></div>
+                       <div id="skillButton3"><div id="skillSlot3CD"></div><img id="skillSlot3" src="img/src/icons/skill3Slot.png"></div>
+                       <div id="skillButton4"><div id="skillSlot4CD"></div><img id="skillSlot4" src="img/src/icons/skill4Slot.png"></div>
+
+                    </div> 
+
+                       <div id="encounterWrapper">
+
+                        <div class= "encounterButton" id="miningNode"></div>
+                       <div class= "encounterButton" id="pondNode"></div><div class= "encounterButton" id="herbNode"></div>
+                       <div class= "encounterButton" id="encounterEasy"></div> <div class= "encounterButton" id="encounterMedium"></div>
+                       <div class= "encounterButton" id="encounterHard"></div><div id="bossButton"></div>
+
+                   </div>
+
+                       
+                   </div>
+                
+                
+                
+                
+                </div> 
+
+
+                 
+
+                   <div class="contentHeader" id="manaBox"><div id="magicBar"></div> </div>
+
+<!-- ---------------inventory------------ -->
+
+<div class="contentHeaderFused" style="background: #714F39;">
+    <div class="contentHeaderLeft"><img src="img/sys/storage.png">Inventory
+
+        <div id="inventorySorters">
+            <button onclick="did('inventory').innerHTML=''; currentSort='all'; addItem(); playSound('audio/button2.mp3');inventoryCulling()"><img src="img/src/icons/sortAll.png"></button>
+                <button onclick="did('inventory').innerHTML=''; currentSort='material'; addItem(); playSound('audio/button2.mp3');inventoryCulling()" class="extraSorter" style="display: none;"><img src="img/src/icons/sortMaterials.png"></button>
+                <button onclick="did('inventory').innerHTML=''; currentSort='consumable'; addItem(); playSound('audio/button2.mp3');inventoryCulling()" class="extraSorter" style="display: none;"><img src="img/src/icons/sortBattle.png"></button>
+                <button onclick="did('inventory').innerHTML=''; currentSort='equipable'; addItem(); playSound('audio/button2.mp3');inventoryCulling()" class="extraSorter" style="display: none;"><img src="img/src/icons/sortEquip.png"></button>
+                <button onclick="did('inventory').innerHTML=''; currentSort='misc'; addItem(); playSound('audio/button2.mp3');inventoryCulling()" class="extraSorter" style="display: none;"><img src="img/src/icons/sortMisc.png"></button>
+                <button onclick="did('inventory').innerHTML=''; currentSort='favorites'; addItem(); playSound('audio/button2.mp3');inventoryCulling()" class="extraSorter" style="display: none;"><img src="img/src/icons/sortFavorites.png"></button>
+                <button onclick="did('inventory').innerHTML=''; currentSort='vault'; addItem(); playSound('audio/button2.mp3');inventoryCulling()" class="extraSorter" style="display: none;"><img src="img/src/icons/sortVault.png"></button>
+                <button onclick="toggleUpgrade()" id="toggleUpgradeButton"><img src="img/src/icons/upgradeButton.png"> Upgrade  </button></div>
+
+    
+    </div>
+    <div class="contentHeaderCenter"></div>
+    <div class="contentHeaderRight" style="padding-right: 1rem;">
+        <span class="helpingDuck" id="inventoryHelpingDuck" style="display: none;">&#129414</span>
+        <div id="sellModeText"> <span>Sell Mode</span> Click to sell an item, Hold Click to sell multiple</div>
+        <div id="lockModeText"><span>Lock Mode</span> Click an item to prevent selling it</div>
+        <div id="favoriteModeText"><span>Favorite Mode</span> Click an item to add to the Favorites tab</div>
+        <div id="vaultModeText"><span>Vault Mode</span> Click an item to add to the Vault tab</div>
+                
+        <input id="inventorySearch" type="text" placeholder=" Search for an Item..." autocomplete="off" maxlength="30" onkeypress="if(event.key === 'Enter') {this.blur(); addItem();}if(event.key === 'Enter' && this.value === 'the secret') {logs.P61A.unlocked=true;}" onclick="inventorySearch.value=''; emptySearchBar = true; addItem();">
+        <div id="inventorySorters3"><button onclick="toggleVault()" id="addVaultButton" style="display: none;" class="extraSorter"><img src="img/src/icons/vaultAdd.png"></button><button onclick="toggleFavorite()" id="addFavoriteButton" style="display: none;" class="extraSorter"><img src="img/src/icons/favoritesAdd.png"></button><button onclick="toggleLock()" id="toggleLockButton"><img src="img/src/icons/lockButton.png"></button><button onclick="toggleSell()" id="toggleSellButton"><img src="img/src/icons/shopButton.png"></button>
+        </div>
+
+
+    </div>
+
+</div>
+
+    <div class="contentPanel" id="inventory"></div>  
+                  
+ <!-- ---------------combatlog------------ -->
+
+<div class="contentHeaderFused" id="combatLogHeader">
+    <div class="contentHeaderLeft"><img src="img/src/icons/combatLog.jpg">Combat Log
+    </div>
+    <div class="contentHeaderCenter"></div>
+    <div class="contentHeaderRight">
+        <img id="combatLogArrow" src="img/sys/contraer.png">
+    </div>
+</div>
+
+ <div class="contentPanel" id="combatLog"></div>
+
+
+
+
+            </div>
+
+
+            <div class="categoryContentColumn" style="width: 35%;">
+            
+            
+            <!-- ---------------equipment-------------->
+            
+            <div class="contentHeaderButtonMenu">
+                <div class="contentHeaderButton" style="width: 49.6%; background: #284740;" id="equipmentButton"><img src="img/src/icons/equipmentIcon.jpg">Equipment</div>
+                <div class="contentHeaderButton gearButtonLocked" style="width: 49.6%; background: #2B2B50;" id="skillsButton"><img src="img/src/items/I0.jpg" style="margin-right: 0.3rem;">?????</div>
+            </div>
+
+
+
+
+
+
+
+
+            
+
+            <div id="skillsTab" class="contentPanel" style="display: none;">
+
+
+            <div id="planetariumPanel">
+
+                <div id="planetariumButton" onclick="createTalent()">🔮</div>
+                <p>
+                <span>Click to enter the planetarium and gain new skills</span>
+                <span>Levels left for the next Wish: <strong style="color: white; background: #7D61ED;" id="nextTalent">20</strong></span>
+                <span>Current Wishes: <strong id="unspentTalent2">20</strong></span>
+                </p>
+
+            </div>
+
+            <div class="skillsTabWrapperTitle">Classes</div>
+            <div class = "skillsTabWrapper" id="classWrapper">
+                
+               
+            </div>
+            
+            <div class="skillsTabWrapperTitle" style="background: #462B3E;">Skills</div>
+            <div class = "skillsTabWrapper" id="skillWrapper" style="background: #402B33;">
+                
+               
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            </div>
+
+
+
+
+
+
+
+
+            
+
+            <div class="contentPanel" id="equipmentTab">
+
+                <div id="expPanel">
+
+                    <img id="classIcon" src="img/src/talents/noClass.jpg">
+                    <div id="expPanelHalf2">   
+                        <div id="expPanelSlot1">
+                            <div id="expPanelLevel">LEVEL <span id="turtleLevel2" >30</span></div>
+                        </div>
+                        <div id="expPanelSlot2">
+                            <div id="expPanelClass"></div><div id="expPanelExp"><span id="currentExp">9999/9999</span>EXP</div>
+                        </div>
+                        <div id="expPanelSlot3">
+                            <div id="expBar"></div>
+                        </div>
+                    </div>
+
+                    <div id="expPanelBg2"></div> 
+                    <div id="expPanelBg"></div>
+                    
+    
+                    </div>
+
+                    <div id="equipmentTabHalf">
+
+                        <div id="equipmentTabGear">
+
+                        <div class="contentPanel" style="height: 100%; align-items: center; flex-direction: column;">
+                        
+                            <div id="gearLoadouts" style="display: none;">
+                                <button id="loadout1" onClick="updateLoadout(1);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #46CB4C;">1</span></button>
+                                <button id="loadout2" onClick="updateLoadout(2);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #446CC9;">2</span></button>
+                                <button id="loadout3" onClick="updateLoadout(3);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #AD44C8;">3</span></button>
+                                <button id="loadout4" onClick="updateLoadout(4);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #CBA746;">4</span></button>
+                                <button id="loadout5" onClick="updateLoadout(5);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #CB5E46;">5</span></button>
+                                <button id="loadout6" onClick="updateLoadout(6);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #464ACB;">6</span></button>
+                                <button id="loadout7" onClick="updateLoadout(7);"><img src="img/src/icons/loadoutIcon.png"><span style="color: #CB4646;">7</span></button>
+                            </div>
+
+                            <div id="gearFlex">
+
+            
+
+                                <div class="gearRow" id="gearRow1">
+                                <div id="rpgHeadSlot"> <div class="equipmentSlot"><img src="img/sys/headSlot.png"></div> </div>
+                                </div>
+                                   
+                                <div class="gearRow" id="gearRow2">
+                                <div id="rpgHandsSlot"> <div class="equipmentSlot"><img src="img/sys/handsSlot.png"></div> </div>
+                                    
+                                <div id="rpgChestSlot"> <div class="equipmentSlot"><img src="img/sys/chestSlot.png"></div> </div>
+                                    
+                                <div id="rpgWeaponSlot"> <div class="equipmentSlot"><img src="img/sys/weaponSlot.png"></div> </div>
+                                </div>
+                                   
+                               <div class="gearRow" id="gearRow3"> 
+                               <div id="rpgRingSlot"> <div class="equipmentSlot"><img src="img/sys/ringSlot.png"></div> </div>
+                                    
+                               <div id="rpgLegsSlot"> <div class="equipmentSlot"><img src="img/sys/legsSlot.png"></div> </div>
+                                    
+                               <div id="rpgTrinketSlot"> <div class="equipmentSlot"><img src="img/sys/trinketSlot.png"></div> </div>
+                               </div>   
+                                   
+                                <div class="gearRow" id="gearRow4"> 
+                               <div id="rpgFeetSlot"> <div class="equipmentSlot"><img src="img/sys/feetSlot.png"></div> </div>
+                               </div>
+                                   
+                               </div>
+
+                        
+                        </div>
+
+                        </div>
+
+
+
+                        <div id="equipmentTabStats" >
+
+
+                            <div class="contentHeaderFused" id="statsPanelTitle" style="background: #4F2A37; margin: 0;">
+                                <div class="contentHeaderLeft"><img src="img/src/icons/statsIcon.jpg" style="margin: 0 0.3rem;">Stats
+                                </div>
+                                <div class="contentHeaderCenter"></div>
+                                <div class="contentHeaderRight"><span class="helpingDuck" id="statsHelpingDuck">&#129414</span></div>
+                            </div>
+
+                            <div class="contentPanel" id="equipmentTabStatsPanel">
+                                <p id="statsOmni"></p>
+                                <p id="statsHealth"></p>  
+                                <p id="statsNatureDamage"></p>
+                                <p id="statsStrength"></p>
+                                <p id="statsSpellpower"></p>
+                                <p id="statsHaste"></p>     
+                                <p id="statsNatureBonus"></p>
+                                <p id="statsMightBonus"></p>
+                                <p id="statsElementalBonus"></p>
+                                <p id="statsOccultBonus"></p>
+                                <p id="statsDeificBonus"></p>
+                                <p id="statsMiningDamage"></p>
+                                <p id="statsMiningBonus" style="display: none;"></p>
+                                <p id="statsHerbloreDamage" style="display: none;"></p>
+                                <p id="statsHerbloreBonus" style="display: none;"></p>
+                                <p id="statsNatureResist"></p>
+                                <p id="statsMightResist"></p>
+                                <p id="statsElementalResist"></p>
+                                <p id="statsOccultResist"></p>
+                                <p id="statsDeificResist"></p>
+                                <p id="statsDropChance"></p>
+                                <p id="statsExpMultiplier"></p>
+                                <p id="statsFishingLevel"></p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="contentHeaderButtonMenu">
+                <div class="contentHeaderButton" style="width: 23.5%; background: #443925;" id="questButton"><img src="img/src/items/quest.jpg" style="margin-right: 0.3rem;">Quest</div>
+                <div class="contentHeaderButton gearButtonLocked" style="width: 23.5%; background: #552D2D;" id="shopButton"><img src="img/src/items/I0.jpg" style="margin-right: 0.3rem;">?????</div>
+                <div class="contentHeaderButton gearButtonLocked" style="width: 23.5%; background: #2E522B;" id="areaButton" onclick="createAreaPanel()"><img src="img/src/items/I0.jpg" style="margin-right: 0.3rem;">?????</div>
+                <div class="contentHeaderButton gearButtonLocked" style="width: 26.5%; background: #323551;" id="dungeonButton"><img src="img/src/items/I0.jpg" style="margin-right: 0.3rem;">?????</div>
+            </div>
+
+            <div class="contentPanel" id="questTab">    
+
+            <div class="questBoard">
+                <div class="questBoardPin"></div>
+                <div class="questBoardBox">
+                    <img src="img/src/items/I121.jpg">
+                    <div class="questBoardDetails">Quest About<br>A Cat<br>★★☆☆☆</div>
+                </div>
+            </div>
+
+            
+            </div>
+
+            <div class="contentPanel" id="skirmishTab">   </div>  
+            <div class="contentPanel" id="showdownTab">   </div>
+                
+            
+            <div class="contentPanel" style="height: 100%; display: none;" id="shopTab" >
+
+                <div id="shopRestock"> ⏱️ Shop restocks in <span id="restockTimer"></span></div>
+                
+            <div class="shopCarpet">
+
+                <span id="shopListing">
+                <div class="shopBox"> <div class=restockIcon>🔄</div> <div class=soldOut>SOLD OUT</div><img src="img/src/items/I104.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I105.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I107.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I108.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I109.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I106.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I102.jpg"></div>
+
+                <div class="shopBox"><img src="img/src/items/I104.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I105.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I107.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I108.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I109.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I106.jpg"></div>
+                <div class="shopBox"><img src="img/src/items/I102.jpg"></div>
+
+                </span>
+
+            </div>
+
+            
+            </div>
+            
+        
+            <div class="contentPanel" style="height: 100%; display: none;" id="areaTab" ></div>
+                    
+            <div class="contentPanel" style="height: 100%; display: none;" id="dungeonTab" ></div>            
+                    
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            </div>
+            
+            <div class="panelInferiorAldea" id="rpgWrapper" style="display: none;">
+                
+             <div class="panelConstruccion" id="explorationPanel">
+             
+                 
+                
+            
+               
+           <div class="rpgTitle" id="combatLogTitle">Combat Log<img id="combatLogArrow" src="img/sys/contraer.png"></div>       
+           <div class="rpgPanel" id="combatLog"></div>       
+                 
+             </div>
+                
+                
+            <div class="panelConstruccion" id="yourTurtlePanel">
+            <div class="panelConstruccionTitulo" id="yourTurtleLine" style="display:none"><span>Nameoftheturtle</span></div>
+            
+            <div id="gearWrapper">    
+            <div  class="gearButtonActive">Equipment</div>    
+            <div  class="gearButtonLocked">?????</div>    
+            </div> 
+                
+            <div  class="gearTab">
+                
+            
+                
+            <div id="equipmentFlex">
+                
+            
+            <div id="statsFlex">
+                
+             <div id="statsTitle">Statistics</div>   
+             
+                
+                
+            </div>
+                
+            
+                
+                
+            </div>
+                
+            </div>    
+                
+            <div id="skillsTab" class="gearTab" style="display: none;">
+            <div class="skillBG"></div>
+            
+        <div class="separador"></div>
+            
+
+
+
+
+
+            </div>
+            
+               
+             
+            </div>     
+             
+            <div class="panelConstruccion" id="travelPanel">
+             <div class="panelConstruccionTitulo" id="travelLine" style="display:none"><span>Travel</span></div>
+                
+               <div id="travelWrapper">
+            <div id="questButton" class="gearButtonActive" >Quest</div>
+            <div id="shopButton" class="gearButtonLocked" >?????</div>       
+            <div id="areaButton" class="gearButtonLocked" >?????</div>    
+            <div id="dungeonButton" class="gearButtonLocked">?????</div> 
+                   
+            </div>  
+            <div class="travelTab" style="display: none;"></div>
+                
+                
+                
+                
+            
+            
+            <div id="shopTab" class="travelTab" style="display: none"> <div class="shopHeader">
+                <div id="itemOfTheDay" style="display: none;"><div id="titleOfTheDay">Item Of The Day</div><img id="itemOfTheDayFlair" src="img/src/projectiles/sunray.png"><img id="imageOfTheDay"src="img/src/items/I103.jpg"><div class="soldOut" id="itemOfTheDayTag" style="display: flex;">SOLD OUT</div><div id="nameOfTheDay">Recipe: Epicardo Item</div><div id="priceOfTheDay">29.12K Turtle Coins</div></div>
+                <div class="shopTitle">✦✧✦✧✦<div class="separador"></div></div></div> <div ></div></div>
+            <div id="showdownTab" class="travelTab" style="display: none">
+            
+            
+            
+            </div>
+            <div id="skirmishTab" class="travelTab" style="display: none"></div>    
+                
+                  
+                
+                
+                
+                
+                
+            <span id="presentSwitch" display="position:absolute !important; z-index:-10">this span is basically like the 2fort cow. if you delete it, the game explodes. i dont know when this code appeared. i dont know what causes the code error, its better to just leave it here</span>
+
+                
+                
+                
+                
+                
+                
+                
+                    
+                
+                
+                
+                
+                    
+             </div>
+            
+            </div>
+
+
+        </div>
+
+    </span>
+    <script src="scripts/HackTimer.js"></script>
+    <script type="text/javascript" src="scripts/fuse.js"></script>
+    <script src="patreon.js"></script>
+    <script src="gameObjects.js"></script>
+    <script src="spellList.js"></script>
+    <script type="text/javascript" src="scripts/panzoom.js"></script>
+    <script type="text/javascript" src="scripts/vanilla-tilt.js"></script>
+    <script src="main.js"></script>
+    <script src="rpg.js"></script>
+    <script src="garden.js"></script>
+    <script src="job.js"></script>
+    <script src="logs.js"></script>
+    <script src="garrison.js"></script>
+   
+
+
+</body>
+
+</html>

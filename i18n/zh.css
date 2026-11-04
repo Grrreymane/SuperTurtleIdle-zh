@@ -1,0 +1,17 @@
+/* Chinese glyphs under the game's own font names: the many inline `font-family: fredoka` keep working,
+   Latin text and numbers stay in the original fonts, and browsers only download this file for CJK text. */
+@font-face { font-family: belwe; src: url(../font/zh.woff2) format('woff2'); font-display: swap; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+2018-201D, U+2026; }
+@font-face { font-family: fredoka; src: url(../font/zh.woff2) format('woff2'); font-display: swap; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+2018-201D, U+2026; }
+@font-face { font-family: lilita; src: url(../font/zh.woff2) format('woff2'); font-display: swap; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+2018-201D, U+2026; }
+@font-face { font-family: germanica; src: url(../font/zh.woff2) format('woff2'); font-display: swap; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+2018-201D, U+2026; }
+@font-face { font-family: yikes; src: url(../font/zh.woff2) format('woff2'); font-display: swap; unicode-range: U+2E80-2FDF, U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+2018-201D, U+2026; }
+
+/* Chinese can break between any two characters, which stacks short button labels vertically in narrow buttons. */
+html[data-game-locale="zh"] button { word-break: keep-all; }
+html[data-game-locale="zh"] #craftButtonOne, html[data-game-locale="zh"] #craftButtonAll { white-space: nowrap; }
+
+/* Language switcher (Settings > Game Settings), rendered by the platform script. */
+#gameLanguageRow #gameLanguage { margin-left: auto; height: 90%; }
+#gameLanguage .game-language-inline, #gameLanguage [role="group"] { display: flex; gap: 0.3rem; height: 100%; }
+.settingsFlex h3 #gameLanguage button { margin: 0; width: 6rem; height: 100%; }
+.settingsFlex h3 #gameLanguage button[aria-pressed="true"] { background: #5e8f4e; border-color: #8fc97a; }
