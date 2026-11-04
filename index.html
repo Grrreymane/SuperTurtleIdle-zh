@@ -9,6 +9,8 @@
     <script src="i18n/zh.js"></script>
     <script src="i18n/config.js"></script>
     <script src="https://www.aiwanna.games/sdk/auto-i18n-v1.js"></script>
+    <link rel="stylesheet" href="platform/online.css">
+    <script src="platform/online.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preload" href="main.js" as="script">
     <link rel="icon" href="img/src/icons/favicon.png" type="image">
@@ -67,8 +69,16 @@
     
     
 
+        <div id="leaderboard" class="panelOpciones" style="display:none">
+
+            <h1>LEADERBOARD</h1>
+            <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
+            <p class="boardNote">Total Mastery, from quests, collections, the archive, the armory, the bestiary and the garden.</p>
+            <div class="boardPanel"><div id="boardList"></div><div id="boardMe"></div></div>
+        </div>
+
         <div id="opciones" class="panelOpciones" style="display:none">
-              
+
             <h1>SETTINGS</h1>
             <div class="separatorHeader"><div class="separator"></div>(Click outside the window to close)<div class="separator"></div></div>
             <span class="settingsFlex">
@@ -78,7 +88,7 @@
             <h3 style="background: #363a5e;">Discord server</strong><button style="background: #454179;" onclick='window.open("https://discord.gg/VnukKfSs3S", "_blank"); logTrackClickDiscord=true'>Join</button></h3>
 
             <h2>General</h2>
-            <h3>Save manually <strong style="color: rgb(85, 80, 80);">[Shortcut: "S"]</strong><button onclick="autosave(); playSound('audio/button1.mp3')">Save</button></h3>
+            <h3>Save manually <strong style="color: rgb(85, 80, 80);">[Shortcut: "S"]</strong><button onclick="autosave(); STI_ONLINE.saveNow(); playSound('audio/button1.mp3')">Save</button></h3>
             <h3 id="exportSave">Export save in a JSON file<button onclick="exportJSON(); playSound('audio/button1.mp3')">Export</button></h3>
             <h3>Import JSON file <strong style="color: rgb(240, 92, 92);"> [⚠ Only import trusted saves!]</strong><button onclick="importJSON(); playSound('audio/button1.mp3')">Import</button></h3>
             <h3 id="warningButton">Wipe all progress<button onclick="deleteSavePrompt();" style="background: #B23E3E;">DELETE</button></h3>
@@ -843,6 +853,11 @@
                 <div class=sinBoton id="botonGameGuide">
 
                     <p>Game Guide</p>
+                </div>
+
+                <div class=sinBoton id="botonLeaderboard" style="display:none" onclick="STI_ONLINE.openBoard()">
+
+                    <p>Leaderboard</p>
                 </div>
 
                 <div class=sinBoton onclick='window.open("https://superturtleidlebeta.github.io", "_blank");'>
@@ -2070,6 +2085,7 @@
 
     </span>
     <script src="scripts/HackTimer.js"></script>
+    <script>STI_ONLINE.holdTimers();</script>
     <script type="text/javascript" src="scripts/fuse.js"></script>
     <script src="patreon.js"></script>
     <script src="gameObjects.js"></script>

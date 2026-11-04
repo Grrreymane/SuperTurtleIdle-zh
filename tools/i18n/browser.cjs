@@ -26,12 +26,12 @@ function serve(root) {
   });
 }
 
-async function launch({ root, width = 1600, height = 900, lang = 'en-US' }) {
+async function launch({ root, width = 1600, height = 900, lang = 'en-US', args = [] }) {
   if (!CHROME) throw new Error('Chrome not found');
   const { server, port } = await serve(root);
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'sti-chrome-'));
   const proc = spawn(CHROME, ['--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`, `--window-size=${width},${height}`, `--lang=${lang}`,
-    '--no-first-run', '--no-default-browser-check', '--mute-audio', '--autoplay-policy=no-user-gesture-required', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
+    '--no-first-run', '--no-default-browser-check', '--mute-audio', '--autoplay-policy=no-user-gesture-required', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', ...args, 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
   const wsUrl = await new Promise((resolve, reject) => {
     let buf = '';
     const t = setTimeout(() => reject(new Error('Chrome did not start: ' + buf.slice(-400))), 30000);
@@ -44,9 +44,14 @@ async function launch({ root, width = 1600, height = 900, lang = 'en-US' }) {
   let seq = 0;
   const pending = new Map();
   const consoleLog = [], errors = [];
+  const listeners = {}, contexts = new Map();
   ws.onmessage = ev => {
     const m = JSON.parse(ev.data);
     if (m.id && pending.has(m.id)) { const { resolve, reject } = pending.get(m.id); pending.delete(m.id); m.error ? reject(new Error(m.error.message)) : resolve(m.result); return; }
+    if (m.method === 'Runtime.executionContextCreated' && m.params.context.auxData && m.params.context.auxData.isDefault) contexts.set(m.params.context.id, m.params.context.origin);
+    if (m.method === 'Runtime.executionContextDestroyed') contexts.delete(m.params.executionContextId);
+    if (m.method === 'Runtime.executionContextsCleared') contexts.clear();
+    if (m.method && listeners[m.method]) for (const fn of listeners[m.method]) fn(m.params);
     if (m.method === 'Runtime.exceptionThrown') errors.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text);
     if (m.method === 'Runtime.consoleAPICalled') { const line = m.params.args.map(a => a.value ?? a.description ?? '').join(' '); consoleLog.push(line); if (m.params.type === 'error') errors.push(line); }
     if (m.method === 'Network.loadingFailed' && !m.params.canceled) errors.push('network: ' + m.params.errorText + ' ' + (pending.urls && pending.urls.get(m.params.requestId) || ''));
@@ -71,6 +76,15 @@ async function launch({ root, width = 1600, height = 900, lang = 'en-US' }) {
       if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text);
       return r.result.value;
     },
+    // Run in the newest frame from an origin (needs --disable-site-isolation-trials for cross-origin iframes).
+    async evalIn(origin, expression) {
+      const id = [...contexts.entries()].filter(([, o]) => o === origin).map(([i]) => i).pop();
+      if (id === undefined) throw new Error('no frame from ' + origin);
+      const r = await send('Runtime.evaluate', { expression, contextId: id, awaitPromise: true, returnByValue: true });
+      if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text);
+      return r.result.value;
+    },
+    on(method, fn) { (listeners[method] = listeners[method] || []).push(fn); },
     async addInit(source) { await send('Page.addScriptToEvaluateOnNewDocument', { source }); },
     async shot(file, clip) {
       const r = await send('Page.captureScreenshot', { format: 'png', ...(clip ? { clip: { ...clip, scale: 1 } } : {}) });

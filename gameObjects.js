@@ -642,6 +642,7 @@ let bestiaryMasteryStats = 0
 if (unlocks.bestiary) bestiaryMasteryStats = medalsGot*10
 
 playerMastery = stats.questsCompleted*10 + collectiblesGot*5 + totalArmoryGot*10 + bestiaryMasteryStats + stats.logsGot*5 + plantCompletionProgress*6
+window.stiMasteryScore = playerMastery; // leaderboard score: before the debug, buff and area caps below
 if (rpgPlayer.debugMastery!=0) playerMastery = rpgPlayer.debugMastery
 if (buffs.B115.time>0 && playerMastery>buffs.B115.stacks)  playerMastery = buffs.B115.stacks
 

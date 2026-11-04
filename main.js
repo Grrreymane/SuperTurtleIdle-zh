@@ -891,6 +891,7 @@ did("bodyCover").addEventListener("click", function () { closePanels() })
 function closePanels(){
     playSound("audio/close.mp3")
     did("opciones").style.display = "none";
+    did("leaderboard").style.display = "none";
     did("estadisticas").style.display = "none";
     did("changelog").style.display = "none";
     did("deleteData").style.display = "none";
@@ -988,6 +989,7 @@ for (let i = 0; i < patreonTier3.length; i++) {
 settingsPanel ("botonEstadisticas", "estadisticas");
 
 settingsPanel ("botonGameGuide", "gameGuide");
+settingsPanel ("botonLeaderboard", "leaderboard");
 
 
 window.addEventListener('load', function () { //gets date started
@@ -1715,7 +1717,7 @@ setInterval(function() { if (!settings.disableAutosave) { autosave(); } }, 60000
 
 
 document.addEventListener("keydown", function (event) {
-    if (event.code === "KeyS" && turtleRename.style.display === "none") autosave()
+    if (event.code === "KeyS" && turtleRename.style.display === "none") { autosave(); STI_ONLINE.saveNow(); }
 });
 
 
@@ -2044,10 +2046,10 @@ function deleteSave() {
     const saveData = {}
     saveData.savedItemCount = {}; for (const i in items) { if (items[i].quality==="Soulbound")  saveData.savedItemCount[i] = items[i].count;}
     const JSONData = JSON.stringify(saveData);
-    localStorage.setItem('saveData', JSONData); 
+    localStorage.setItem('saveData', JSONData);
 
 
-    location.reload();
+    STI_ONLINE.reload();
 };
 
 
@@ -2102,7 +2104,7 @@ function importJSON() {
                 const importedData = JSON.parse(e.target.result);
                 const JSONData = JSON.stringify(importedData);
                 localStorage.setItem('saveData', JSONData);
-                location.reload();
+                STI_ONLINE.reload();
             };
             reader.readAsText(file);
         }

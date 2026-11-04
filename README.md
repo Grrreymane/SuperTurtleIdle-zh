@@ -11,6 +11,7 @@ Changes from the original:
 - Asset paths are relative so that the game can run from a subfolder.
 - The body font is an open-license replacement, see `font/LICENSES.md`.
 - Unused artwork source files are removed.
+- Inside the AIWANNA player: cloud saves and a Total Mastery leaderboard, see `platform/online.js`. Opened on its own, the game has neither and keeps its save in the browser, as the original does. `node tools/online_sim.cjs` tests this against a pretend platform.
 
 Text inside images stays in English.
 

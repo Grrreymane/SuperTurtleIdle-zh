@@ -1,0 +1,24 @@
+/* Cover while the save loads, and the leaderboard panel. The panel itself uses the game's .panelOpciones.
+   The game's stylesheet gives every element a background and a font, hence the resets. */
+#onlineCover {
+  position: fixed; inset: 0; z-index: 100000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem; text-align: center;
+  background: #16131c; color: #fff;
+  font-family: fredoka; font-size: 1.6rem;
+}
+
+#leaderboard .boardPanel, #leaderboard #boardList, #leaderboard #boardMe, #leaderboard .boardNote { background: transparent; }
+#leaderboard .boardPanel { width: 100%; flex: 0 1 auto; display: block; padding: 0 3rem; box-sizing: border-box; overflow-y: auto; }
+#leaderboard #boardMe { margin-top: 0.8rem; }
+#leaderboard .boardRow {
+  display: flex; align-items: center; gap: 0.8rem;
+  min-height: 2.6rem; padding: 0 1rem; margin-bottom: 0.35rem; box-sizing: border-box;
+  border-radius: 0.5rem; background: #2c2933; color: #fff;
+}
+#leaderboard .boardRow span { background: transparent; font-family: fredoka; font-weight: 400; font-size: 1.4rem; }
+#leaderboard .boardMine { background: #4d6b3d; }
+#leaderboard .boardRank { flex: 0 0 4.5rem; color: #edd585; }
+#leaderboard .boardName { flex: 1 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: #fff; }
+#leaderboard .boardScore { flex: 0 0 auto; color: #fff; }
+#leaderboard .boardNote { margin: 0.6rem 0; padding: 0 3rem; text-align: center; color: #bbb; font-family: fredoka; font-size: 1.2rem; }

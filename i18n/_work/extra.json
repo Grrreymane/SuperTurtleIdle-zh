@@ -87,5 +87,16 @@
  "Pulls the lever on a magic jackpot, with 3 possible outcomes;": "拉动魔法老虎机的拉杆，有 3 种可能的结果：",
  "These debuffs can be cleansed and resisted with their respective alignment resistance;": "这些减益可以用对应属性的抗性来净化和抵抗：",
  "These debuffs are usually inflicted by enemies and are varied in their effect;": "这些减益通常由敌人施加，效果各不相同：",
- "modo diablo 😈": null
+ "modo diablo 😈": null,
+ "Leaderboard": "排行榜",
+ "LEADERBOARD": "排行榜",
+ "Total Mastery, from quests, collections, the archive, the armory, the bestiary and the garden.": "比的是总精通，来自任务、收集、档案、军械库、怪物图鉴和花园。",
+ "Loading your save...": "正在读取存档……",
+ "Loading...": "读取中……",
+ "This save needs a newer version of the game. Your save is safe.": "这个存档需要更新版本的游戏。你的存档是安全的。",
+ "Couldn't load your save. Your save is safe. Please reload the page.": "存档读取失败，但你的存档是安全的。请刷新页面。",
+ "Couldn't load the leaderboard. Please try again in a moment.": "排行榜加载失败，请稍后再试。",
+ "No scores yet. Be the first!": "还没有人上榜，来当第一名吧！",
+ "Not ranked yet. Your Mastery is sent automatically as it grows.": "你还没上榜。精通提升后会自动提交。",
+ "Playing as a guest. Log in on AIWANNA to keep your progress on any device.": "你现在是游客。登录 AIWANNA，就能在任何设备上继续进度。"
 }
