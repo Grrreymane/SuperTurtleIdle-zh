@@ -115,6 +115,60 @@ function apiOnce(method, url, headers, body) {
     const pushes = () => db.puts.length;
     const waitPut = async (n, ms = 20000) => { const end = Date.now() + ms; while (db.puts.length < n && Date.now() < end) await sleep(150); return db.puts.length >= n; };
 
+    // MOTION=1: does a returning player's turtle still fight, die and come back?
+    if (process.env.MOTION) {
+      // The browser window has the focus and the page around the game holds it, as right after pressing Play.
+      await p.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+      const track = `(() => { window.__anims = 0; document.addEventListener('animationstart', e => { if (e.target.id === 'playerAnimation' && /playerAttack|gelatine/.test(e.animationName)) window.__anims++; }, true); return 1; })()`;
+      const look = `({ anims: window.__anims, alive: rpgPlayer.alive, hp: Math.round(rpgPlayer.hp), max: Math.round(playerMaxHp), enemyHp: Math.round(currentHP), kills: stats.totalKills, src: document.getElementById('rpgPlayerImg').getAttribute('src').split('/').pop(), transform: document.getElementById('playerAnimation').style.transform })`;
+      await open('u1');
+      await inGame(`closePanels(); rpgPlayer.coins = 54321; 1`);
+      await sleep(6000);
+      await bump(120000);
+      await inGame(`STI_ONLINE.saveNow(); 1`);
+      await sleep(1500);
+      check('Back from the cloud', (await open('u1')) && (await inGame(`rpgPlayer.coins`)) >= 54321);
+      await inGame(`closePanels(); 1`); await inGame(track);
+      await sleep(12000);
+      const fighting = await inGame(look);
+      check('A returning player\'s turtle attacks while the focus is outside the game', fighting.anims >= 3 && fighting.alive, fighting);
+      const realFocus = await inGame(`Document.prototype.hasFocus.call(document)`);
+      check('...which really is the case in this test', realFocus === false, { realFocus });
+      await inGame(`rpgPlayer.hp = 0; playerUpdate && 0; enemyAttackCheck ? 0 : 0; rpgPlayer.alive = false; hpRegen(); window.__anims = 0; 1`);
+      await sleep(12000);
+      const dead = await inGame(look);
+      console.log('      dead for 12 s:', JSON.stringify(dead));
+      check('Dead: stays dead on its own, no attacks', !dead.alive && dead.anims === 0 && dead.src === 'dead.png', dead);
+      await p.shot(path.join(SHOTS, 'dead-turtle.png'));
+      await bump(120000);
+      await inGame(`STI_ONLINE.saveNow(); 1`);
+      await sleep(1500);
+      await open('u1');
+      await inGame(`closePanels(); 1`); await inGame(track);
+      await sleep(2500);
+      const reopened = await inGame(look);
+      check('Saved while dead: still dead after reopening', !reopened.alive && reopened.src === 'dead.png', reopened);
+      const clicks = await inGame(`(async () => { let n = 0; const img = document.getElementById('rpgPlayerImg'); while (!rpgPlayer.alive && n < 40) { img.click(); n++; await new Promise(r => setTimeout(r, 60)); } return n; })()`);
+      await sleep(9000);
+      const revived = await inGame(look);
+      check('Clicking the turtle brings it back, and it fights again', revived.alive && revived.anims >= 2 && revived.src !== 'dead.png' && !revived.transform, { clicks, ...revived });
+      const errs = [...new Set(p.errors)].filter(e => !/S2\.png|http 404|http 409|net::ERR_FAILED|Failed to load resource|network: /.test(e));
+      check('No page errors', errs.length === 0, errs.slice(0, 6).map(e => String(e).split('\n').slice(0, 2).join(' ').slice(0, 200)));
+      await p.close();
+      const o = await launch({ root: path.resolve(ROOT, '..', '_reference', 'SuperTurtleIdle'), width: 1600, height: 900 });
+      try {
+        await o.goto('index.html', 4500);
+        await o.eval(`closePanels(); ${track}`);
+        await o.eval(`rpgPlayer.hp = 0; rpgPlayer.alive = false; hpRegen(); window.__anims = 0; 1`);
+        await sleep(12000);
+        const orig = await o.eval(look);
+        check('The original game does the same: stays dead until clicked', !orig.alive && orig.anims === 0, orig);
+      } finally { await o.close(); }
+      const failedM = results.filter(r => !r).length;
+      console.log(`\n${results.length - failedM} passed, ${failedM} failed`);
+      process.exit(failedM ? 1 : 0);
+    }
+
     // 0. Somebody else's progress is in this browser, in the plain game.
     await p.goto(GAME + '?lang=en', 300);
     await p.eval(`localStorage.setItem('saveData', ${JSON.stringify(DEV_SAVE)}); 1`);

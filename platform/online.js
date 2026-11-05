@@ -15,7 +15,7 @@
 window.STI_ONLINE = (function () {
   'use strict';
   const GAME_ID = 'f5f38654-665a-4e1b-b2cf-a85036d9309f', BOARD_ID = '69ab9b44-45a8-4e23-938e-a168c7454f1e';
-  const SCHEMA = 1, GAME_VERSION = '1.1.0', HOME = 'https://www.aiwanna.games';
+  const SCHEMA = 1, GAME_VERSION = '1.1.1', HOME = 'https://www.aiwanna.games';
   const SDK = HOME + '/sdk/cloud-saves-v1.js';
   const ORIGINS = [HOME, 'https://aiwanna.games', 'https://www.ai-made.games', 'https://ai-made.games', 'https://1gp-game-platform.vercel.app'];
   const SNAPSHOT_EVERY = 5 * 60000, SNAPSHOT_EVERY_HIDDEN = 30 * 60000, HIDE_AT_MOST = 60000, MANUAL_AT_MOST = 30000;
@@ -33,6 +33,11 @@ window.STI_ONLINE = (function () {
   const active = inPlayer();
   const noop = () => {};
   if (!active) return { active: false, holdTimers: noop, reload: () => location.reload(), saveNow: noop, openBoard: noop };
+
+  // The game skips attack animations, sound, damage numbers, particles and some spawns unless document.hasFocus().
+  // In an iframe that's false whenever the focus is on the page around it: right after pressing Play, or after
+  // clicking the site's bar or comments. An iframe can't tell if the browser window has the focus, so visible counts.
+  document.hasFocus = () => !document.hidden;
 
   // ---------------------------------------------------------------- hold startup back
   let released = false, domReady = false, pageLoaded = false;
